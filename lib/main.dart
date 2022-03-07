@@ -52,6 +52,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
+
+     var size = MediaQuery.of(context)
+        .size; //this gonna give us total height and with of our device
+
     
     AppBar buildAppBar() {
     return AppBar(
@@ -76,8 +80,23 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   }
     return Scaffold(
       appBar: buildAppBar(),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+      body:Stack(
+        children: <Widget>[
+          Container(
+            // Here the height of the container is 45% of our total height
+            height: size.height * .20,
+            decoration: BoxDecoration(
+              color: Color(0xFFF5CEB8),
+            ),
+          ),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Center(
+                child: _widgetOptions.elementAt(_selectedIndex),
+                )
+            )
+          )]
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
