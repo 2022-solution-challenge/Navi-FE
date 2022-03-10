@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
+import 'dart:math';
 // import 'package:geolocator/geolocator.dart';
 
 class MapApp extends StatelessWidget{
@@ -42,6 +43,21 @@ class MapSampleState extends State<MapSample> {
   // }
 
   // Future<Position> position = getLocation();
+
+  late GoogleMapController _controller; //컨트롤러
+
+  // 지도 클릭 시 표시할 장소에 대한 마커 목록
+  final List<Marker> markers = [];
+
+  addMarker(cordinate) {
+    int id = Random().nextInt(100);
+    setState(() {
+      markers
+          .add(Marker(position: cordinate, markerId: MarkerId(id.toString())));
+    });
+  }
+
+
   @override
   Widget build(BuildContext context){
     // ignore: sized_box_for_whitespace
@@ -58,13 +74,24 @@ class MapSampleState extends State<MapSample> {
         // width : 300,
         height: med.height,
         child: GoogleMap(
-            initialCameraPosition: CameraPosition(
+          mapType: MapType.normal,
+          onMapCreated: (controller) {
+            setState(() {
+              _controller = controller;
+            });
+          },
+          markers: markers.toSet(),
+          initialCameraPosition: CameraPosition(
               target: LatLng(
                   37.5,
-                  126.9294254
+                  126.9294254 // 시작 위치
               ),
               zoom: 18,
-            )
+            ),
+          onTap: (cordinate) {
+            _controller.animateCamera(CameraUpdate.newLatLng(cordinate));
+            addMarker(cordinate);
+          },
         ),
       ),
     );
