@@ -1,8 +1,11 @@
 // ignore_for_file: prefer_const_constructors
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
-// import 'package:geolocator/geolocator.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:location/location.dart';
 
 class MapApp extends StatelessWidget{
   const MapApp({Key? key}) : super(key: key);
@@ -31,27 +34,29 @@ class MapSample extends StatefulWidget {
   State<MapSample> createState() => MapSampleState();
 }
 
-// class GeoLocatorService{
+class GeoLocatorService {
+  Future<Position> geoLocation() async {
+    Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high
+    );
+    return position;
+  }
+}
 
-// }
 class MapSampleState extends State<MapSample> {
 
-  // Future<Position> getLocation() async{
-  //   Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-  //   return position;
-  // }
+  GeoLocatorService geoLocatorService = new GeoLocatorService();
+  Location location = new Location();
 
-  // Future<Position> position = getLocation();
+
   @override
   Widget build(BuildContext context){
     // ignore: sized_box_for_whitespace
+    // med => media query calculate
     final med = MediaQuery.of(context).size;
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Google Maps test'),
-        elevation: 0.0,
-        toolbarHeight: 50,
-      ),
+
       body: Container(
         width: med.width,
         // height: MediaQuery.of(context).size.height,
@@ -60,11 +65,11 @@ class MapSampleState extends State<MapSample> {
         child: GoogleMap(
             initialCameraPosition: CameraPosition(
               target: LatLng(
-                  37.5,
+                  geoLocatorService.,
                   126.9294254
               ),
               zoom: 18,
-            )
+            ),
         ),
       ),
     );
