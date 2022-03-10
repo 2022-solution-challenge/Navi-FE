@@ -2,12 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
-import 'package:geolocator/geolocator.dart';
-void main() {
-  runApp(MyApp());
-}
+// import 'package:geolocator/geolocator.dart';
 
-class MyApp extends StatelessWidget{
+class MapApp extends StatelessWidget{
+  const MapApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

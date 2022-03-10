@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'home/home-page.dart';
+import 'map/map.dart';
 
 void main() => runApp(const MyApp());
 
@@ -42,6 +43,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     UserPage(),
+    MapApp(),
   ];
 
   void _onItemTapped(int index) {
@@ -70,6 +72,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           icon: Icon(Icons.home),
           onPressed: () {},
         ),
+
         SizedBox(width: 20.0 / 2)
       ],
     );
@@ -88,6 +91,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
             label: 'User',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            label: 'map',
           ),
         ],
         currentIndex: _selectedIndex,
