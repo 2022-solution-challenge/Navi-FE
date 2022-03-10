@@ -34,19 +34,37 @@ class MapSample extends StatefulWidget {
   State<MapSample> createState() => MapSampleState();
 }
 
-class GeoLocatorService {
-  Future<Position> geoLocation() async {
-    Position position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high
-    );
-    return position;
-  }
-}
+
+
+
 
 class MapSampleState extends State<MapSample> {
+  late LatLng center;
+  late Position currentPosition;
 
-  GeoLocatorService geoLocatorService = new GeoLocatorService();
+  @override
+  void initState(){
+    super.initState();
+    getUserLocation();
+  }
   Location location = new Location();
+
+
+
+  getUserLocation() async {
+    currentPosition = await locateUser();
+    setState(() {
+      center = LatLng(currentPosition.latitude, currentPosition.longitude);
+    });
+  }
+
+  Future<Position> locateUser() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+
+    return position;
+  }
+
 
 
   @override
@@ -54,6 +72,7 @@ class MapSampleState extends State<MapSample> {
     // ignore: sized_box_for_whitespace
     // med => media query calculate
     final med = MediaQuery.of(context).size;
+    late _locationData = location.getLocation() as LocationData;
 
     return Scaffold(
 
@@ -64,10 +83,7 @@ class MapSampleState extends State<MapSample> {
         height: med.height,
         child: GoogleMap(
             initialCameraPosition: CameraPosition(
-              target: LatLng(
-                  geoLocatorService.,
-                  126.9294254
-              ),
+              target: center,
               zoom: 18,
             ),
         ),
