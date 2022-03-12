@@ -44,7 +44,8 @@ class MapSampleState extends State<MapSample> {
 
   // Future<Position> position = getLocation();
 
-  CustomInfoWindowController _customInfoWindowController = CustomInfoWindowController();
+  CustomInfoWindowController _customInfoWindowController =
+      CustomInfoWindowController();
 
   late GoogleMapController _controller; //컨트롤러
 
@@ -54,7 +55,6 @@ class MapSampleState extends State<MapSample> {
     super.dispose();
   }
 
-
   // 지도 클릭 시 표시할 장소에 대한 마커 목록
   final List<Marker> markers = [];
 
@@ -63,15 +63,15 @@ class MapSampleState extends State<MapSample> {
     setState(() {
       _customInfoWindowController.hideInfoWindow!();
       markers.clear(); //전에 찍은 곳은 안보이게
-      markers
-          .add(
-            Marker(position: cordinate,
-            markerId: MarkerId(id.toString()),
-            onTap: () {
-            _customInfoWindowController.addInfoWindow!(
+      markers.add(Marker(
+        position: cordinate,
+        markerId: MarkerId(id.toString()),
+        onTap: () {
+          _customInfoWindowController.addInfoWindow!(
             Column(
               children: [
                 Expanded(
+                    child: InkWell(
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.blue,
@@ -103,7 +103,30 @@ class MapSampleState extends State<MapSample> {
                     width: double.infinity,
                     height: double.infinity,
                   ),
-                ),
+                  onTap: () {
+                    showModalBottomSheet<void>(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Container(
+                            height: 200,
+                            color: Colors.amber,
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  const Text('Modal BottomSheet'),
+                                  ElevatedButton(
+                                    child: const Text('Close BottomSheet'),
+                                    onPressed: () => Navigator.pop(context),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        });
+                  },
+                )),
                 Triangle.isosceles(
                   edge: Edge.BOTTOM,
                   child: Container(
@@ -117,7 +140,7 @@ class MapSampleState extends State<MapSample> {
             cordinate,
           );
         },
-            ));
+      ));
     });
   }
 
@@ -132,43 +155,41 @@ class MapSampleState extends State<MapSample> {
         toolbarHeight: 50,
       ),
       body: Stack(
-        // height: MediaQuery.of(context).size.height,
-        // width : 300,
-        children: <Widget>[
-        GoogleMap(
-          onTap: (position) {
-              _customInfoWindowController.hideInfoWindow!();
-            },
-          onCameraMove: (position) {
-              _customInfoWindowController.onCameraMove!();
-            },
-          mapType: MapType.normal,
-          onMapCreated: (controller) {
-            setState(() {
-              _controller = controller;
-              _customInfoWindowController.googleMapController = controller;
-            });
-          },
-          markers: markers.toSet(),
-          initialCameraPosition: CameraPosition(
-            target: LatLng(37.5, 126.9294254 // 시작 위치
-                ),
-            zoom: 18,
-          ),
-          onLongPress: (cordinate) {
-            _controller.animateCamera(CameraUpdate.newLatLng(cordinate));
-            showMarker(cordinate);
-          },
-          
-        ),
-        CustomInfoWindow(
-            controller: _customInfoWindowController,
-            height: 75,
-            width: 150,
-            offset: 50,
-          ),
-        ]
-      ),
+          // height: MediaQuery.of(context).size.height,
+          // width : 300,
+          children: <Widget>[
+            GoogleMap(
+              onTap: (position) {
+                _customInfoWindowController.hideInfoWindow!();
+              },
+              onCameraMove: (position) {
+                _customInfoWindowController.onCameraMove!();
+              },
+              mapType: MapType.normal,
+              onMapCreated: (controller) {
+                setState(() {
+                  _controller = controller;
+                  _customInfoWindowController.googleMapController = controller;
+                });
+              },
+              markers: markers.toSet(),
+              initialCameraPosition: CameraPosition(
+                target: LatLng(37.5, 126.9294254 // 시작 위치
+                    ),
+                zoom: 18,
+              ),
+              onLongPress: (cordinate) {
+                _controller.animateCamera(CameraUpdate.newLatLng(cordinate));
+                showMarker(cordinate);
+              },
+            ),
+            CustomInfoWindow(
+              controller: _customInfoWindowController,
+              height: 75,
+              width: 150,
+              offset: 50,
+            ),
+          ]),
     );
   }
 }
