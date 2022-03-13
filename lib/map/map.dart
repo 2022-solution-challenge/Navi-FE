@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:clippy_flutter/triangle.dart';
 import 'package:custom_info_window/custom_info_window.dart';
+import 'current_marker.dart';
 
 import 'dart:async';
 import 'dart:math';
@@ -56,13 +57,16 @@ class MapSampleState extends State<MapSample> {
   }
 
   // 지도 클릭 시 표시할 장소에 대한 마커 목록
-  final List<Marker> markers = [];
+  final List<Marker> markers =
+      []; //markers : 현재 선택한 marker로, onTap으로 infowindow와 bottommodal이 올라가게 동작
+  final List<Marker> mymarkers =
+      []; //mymarkers : 내가 북마크에 추가한 marker로, 눌러도 특별한 동작이 되지 않음
 
   showMarker(cordinate) {
-    int id = Random().nextInt(100);
+    int id = Random().nextInt(100); //나중에 수정
     setState(() {
       _customInfoWindowController.hideInfoWindow!();
-      markers.clear(); //전에 찍은 곳은 안보이게
+      markers.clear(); //전에 찍은 곳은 안보이게 -> 클리어하고 add
       markers.add(Marker(
         position: cordinate,
         markerId: MarkerId(id.toString()),
@@ -82,16 +86,8 @@ class MapSampleState extends State<MapSample> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
-                            Icons.account_circle,
-                            color: Colors.white,
-                            size: 30,
-                          ),
-                          SizedBox(
-                            width: 8.0,
-                          ),
                           Text(
-                            "I am here",
+                            "Add Bookmark",
                             style:
                                 Theme.of(context).textTheme.headline6?.copyWith(
                                       color: Colors.white,
@@ -106,10 +102,11 @@ class MapSampleState extends State<MapSample> {
                   onTap: () {
                     showModalBottomSheet<void>(
                         context: context,
+                        barrierColor: Colors.white.withOpacity(0),
                         builder: (BuildContext context) {
                           return Container(
                             height: 200,
-                            color: Colors.amber,
+                            color: Color.fromARGB(255, 255, 255, 255),
                             child: Center(
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -117,8 +114,14 @@ class MapSampleState extends State<MapSample> {
                                 children: <Widget>[
                                   const Text('Modal BottomSheet'),
                                   ElevatedButton(
-                                    child: const Text('Close BottomSheet'),
-                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text('북마크에 추가하기'),
+                                    onPressed: () {
+                                      mymarkers.add((Marker(
+                                          position: cordinate,
+                                          markerId: MarkerId(id.toString()))));
+
+                                      Navigator.pop(context);
+                                    },
                                   )
                                 ],
                               ),
@@ -172,7 +175,7 @@ class MapSampleState extends State<MapSample> {
                   _customInfoWindowController.googleMapController = controller;
                 });
               },
-              markers: markers.toSet(),
+              markers: (mymarkers + markers).toSet(),
               initialCameraPosition: CameraPosition(
                 target: LatLng(37.5, 126.9294254 // 시작 위치
                     ),
