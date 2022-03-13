@@ -59,10 +59,7 @@ class MapSampleState extends State<MapSample> {
   }
 
   Future<Position> locateUser() async {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-
-    return position;
+    return await Geolocator.getCurrentPosition();;
   }
 
 
@@ -72,7 +69,7 @@ class MapSampleState extends State<MapSample> {
     // ignore: sized_box_for_whitespace
     // med => media query calculate
     final med = MediaQuery.of(context).size;
-    late _locationData = location.getLocation() as LocationData;
+    var _locationData = location.getLocation() as LocationData;
 
     return Scaffold(
 
@@ -83,7 +80,10 @@ class MapSampleState extends State<MapSample> {
         height: med.height,
         child: GoogleMap(
             initialCameraPosition: CameraPosition(
-              target: center,
+              target: LatLng(
+                _locationData.latitude,
+                _locationData.longitude
+              ),
               zoom: 18,
             ),
         ),
