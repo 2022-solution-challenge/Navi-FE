@@ -40,26 +40,13 @@ class MapSample extends StatefulWidget {
 
 class MapSampleState extends State<MapSample> {
   late LatLng center;
-  late Position currentPosition;
-
-  @override
-  void initState(){
-    super.initState();
-    getUserLocation();
-  }
-  Location location = new Location();
+  late Position _locationData;
 
 
-
-  getUserLocation() async {
-    currentPosition = await locateUser();
-    setState(() {
-      center = LatLng(currentPosition.latitude, currentPosition.longitude);
-    });
-  }
 
   Future<Position> locateUser() async {
-    return await Geolocator.getCurrentPosition();;
+    Position position = await Geolocator.getCurrentPosition();
+    return position;
   }
 
 
@@ -69,11 +56,11 @@ class MapSampleState extends State<MapSample> {
     // ignore: sized_box_for_whitespace
     // med => media query calculate
     final med = MediaQuery.of(context).size;
-    var _locationData = location.getLocation() as LocationData;
+    _locationData = locateUser();
 
     return Scaffold(
 
-      body: Container(
+      body: _locationData != null ? Container(
         width: med.width,
         // height: MediaQuery.of(context).size.height,
         // width : 300,
