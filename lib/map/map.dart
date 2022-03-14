@@ -39,37 +39,55 @@ class MapSample extends StatefulWidget {
 
 
 class MapSampleState extends State<MapSample> {
-  late LatLng center;
-  late Position _locationData;
+  List<Marker> _markers = [];
 
-
-
-  Future<Position> locateUser() async {
-    Position position = await Geolocator.getCurrentPosition();
-    return position;
+  @override
+  void initState(){
+    _markers.add(Marker(
+      markerId: MarkerId("first marker"),
+      draggable: true,
+      onTap: () => print("Tappend"),
+      position: LatLng(
+          37.5283169,
+          126.9294254
+      )
+    ));
   }
-
-
+  // late LatLng center;
+  // Position _locationData;
+  //
+  // Location _location = Location();
+  // late GoogleMapController _controller;
+  //
+  // Future<Position> locateUser() async {
+  //   Position position = await Geolocator.getCurrentPosition();
+  //   return position;
+  // }
+  //
 
   @override
   Widget build(BuildContext context){
     // ignore: sized_box_for_whitespace
     // med => media query calculate
     final med = MediaQuery.of(context).size;
-    _locationData = locateUser();
+    // _locationData = locateUser();
 
     return Scaffold(
 
-      body: _locationData != null ? Container(
+      body: Container(
         width: med.width,
         // height: MediaQuery.of(context).size.height,
         // width : 300,
         height: med.height,
         child: GoogleMap(
+            mapType: MapType.normal,
+            markers: Set.from(_markers),
             initialCameraPosition: CameraPosition(
               target: LatLng(
-                _locationData.latitude,
-                _locationData.longitude
+                // _locationData.latitude,
+                // _locationData.longitude
+                  37.5283169,
+                  126.9294254
               ),
               zoom: 18,
             ),
