@@ -63,7 +63,6 @@ class MapSampleState extends State<MapSample> {
   //   Position position = await Geolocator.getCurrentPosition();
   //   return position;
   // }
-  //
 
   @override
   Widget build(BuildContext context){
