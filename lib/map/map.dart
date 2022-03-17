@@ -12,13 +12,15 @@ class MapApp extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Google Maps',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return Center(
+      child: MaterialApp(
+        title: 'Google Maps',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: MapSample(),
       ),
-      home: MapSample(),
     );
     // TODO: implement build
     throw UnimplementedError();
@@ -33,6 +35,7 @@ class MapSample extends StatefulWidget {
   @override
   State<MapSample> createState() => MapSampleState();
 }
+
 
 
 
@@ -53,16 +56,7 @@ class MapSampleState extends State<MapSample> {
       )
     ));
   }
-  // late LatLng center;
-  // Position _locationData;
-  //
-  // Location _location = Location();
-  // late GoogleMapController _controller;
-  //
-  // Future<Position> locateUser() async {
-  //   Position position = await Geolocator.getCurrentPosition();
-  //   return position;
-  // }
+
 
   @override
   Widget build(BuildContext context){
@@ -73,27 +67,41 @@ class MapSampleState extends State<MapSample> {
 
     return Scaffold(
 
-      body: Container(
-        width: med.width,
-        // height: MediaQuery.of(context).size.height,
-        // width : 300,
-        height: med.height,
-        child: GoogleMap(
-            mapType: MapType.normal,
-            markers: Set.from(_markers),
-            initialCameraPosition: CameraPosition(
-              target: LatLng(
-                // _locationData.latitude,
-                // _locationData.longitude
-                  37.5283169,
-                  126.9294254
+      body: Column(
+        children: <Widget>[
+          Container(
+            width: med.width,
+            // height: MediaQuery.of(context).size.height,
+            // width : 300,
+            height: med.height*0.9,
+            child: GoogleMap(
+              mapType: MapType.normal,
+              markers: Set.from(_markers),
+              initialCameraPosition: CameraPosition(
+                target: LatLng(
+                  // _locationData.latitude,
+                  // _locationData.longitude
+                    37.5283169,
+                    126.9294254
+                ),
+                zoom: 18,
               ),
-              zoom: 18,
             ),
-        ),
-      ),
+          ),
+          TextField(
+
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Where to go?',
+            ),
+          )
+
+        ],
+      )
     );
 
   }
+
+
 
 }
