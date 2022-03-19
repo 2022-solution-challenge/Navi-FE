@@ -3,16 +3,20 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:clippy_flutter/triangle.dart';
 import 'addedMarker.dart';
 
-// class PrimitiveWrapper {
-//   List<BitmapDescriptor> markericon;
-//   PrimitiveWrapper(this.markericon);
-// }
+class PrimitiveWrapper {
+  int index;
+  PrimitiveWrapper(this.index);
+}
 
 Marker currentMarker(
     cordinate, id, context, _customInfoWindowController, mymarkers, key, icon) {
   BitmapDescriptor currentIcon = icon[0];
 
+  final selectedIndex = new PrimitiveWrapper(0);
+
   // final markerImage = new PrimitiveWrapper([currentIcon]);
+
+  SelectButton selectbtn = SelectButton();
 
   return Marker(
     position: cordinate,
@@ -60,13 +64,13 @@ Marker currentMarker(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               const Text('현재 선택한 마커'),
-                              SelectButton(),
+                              selectbtn,
                               ElevatedButton(
                                 child: const Text('북마크에 추가하기'),
                                 onPressed: () {
                                   //api 쏴주는 부분
                                   mymarkers.markerlist.add(
-                                      addedMarker(cordinate, id, key, icon));
+                                      addedMarker(cordinate, id, key, icon, selectbtn.index));
                                   Navigator.pop(context);
                                 },
                               ),
@@ -93,6 +97,17 @@ Marker currentMarker(
   );
 }
 
+// class BottomModalItems extends StatelessWidget {
+//   const BottomModalItems({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+
+//  );
+//   }
+// }
+
 class MyButtonModal {
   final String buttonText;
   // New field to uniquely identify a button
@@ -104,19 +119,21 @@ class MyButtonModal {
 class SelectButton extends StatefulWidget {
   SelectButton({Key? key}) : super(key: key);
 
+  int _index = 0;
+  int get index => _index;
+
   @override
   _SelectButtonState createState() => _SelectButtonState();
 }
 
 class _SelectButtonState extends State<SelectButton> {
-  List<MyButtonModal> _a = List.generate( 5,(index) => MyButtonModal(buttonText: "Button ${index + 1}", index: index));
-
-  int index = 0; //초기 인덱스, 얼마든지 바꿀 수 있다.
+  List<MyButtonModal> _a = List.generate(5,
+      (index) => MyButtonModal(buttonText: "Btn ${index + 1}", index: index));
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 70 ,
+      height: 70,
       child: GridView.count(
         childAspectRatio: 1,
         crossAxisSpacing: 20,
@@ -125,10 +142,11 @@ class _SelectButtonState extends State<SelectButton> {
         children: _a.map((MyButtonModal f) {
           return InkWell(
             child: Container(
-              height: 10,
+                height: 10,
                 decoration: BoxDecoration(
                     // Check if f.index == index
-                    color: f.index == index ? Colors.blue : Colors.white,
+                    color:
+                        f.index == widget._index ? Colors.blue : Colors.white,
                     borderRadius: BorderRadius.circular(5),
                     border: Border.all(color: Color(0xffaaaaaa))),
                 child: Center(
@@ -137,7 +155,7 @@ class _SelectButtonState extends State<SelectButton> {
             onTap: () {
               // When button is tapped update index to the index of the button
               setState(() {
-                index = f.index;
+                widget._index = f.index;
               });
             },
           );

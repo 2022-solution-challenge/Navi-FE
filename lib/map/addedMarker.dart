@@ -3,7 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:clippy_flutter/triangle.dart';
 import 'map.dart';
 
-Marker addedMarker(cordinate, id, key, icon) {
+Marker addedMarker(cordinate, id, key, icon, index) {
 
   return Marker(
     position: cordinate,
@@ -22,9 +22,9 @@ Marker addedMarker(cordinate, id, key, icon) {
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    const Text('Modal BottomSheet'),
+                    Text("${index} 번"),
                     ElevatedButton(
-                      child: const Text('좋아요'),
+                      child: Text("좋아요"),
                       onPressed: () {
                         Navigator.pop(context);
                       },
