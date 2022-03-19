@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'currentMarker.dart';
+import 'addedMarker.dart';
+import 'bookMark.dart';
 
 import 'dart:async';
 import 'dart:math';
@@ -75,19 +77,39 @@ class MapSampleState extends State<MapSample> {
 
   late Uint8List markerIcon;
   List<BitmapDescriptor> markerIcons = [];
-  List<String> paths = ['assets/img/star.png', 'assets/img/heart.png']; //이미지 path 지정, 하드코딩 해야할듯
+  List<String> paths = [
+    'assets/img/star.png',
+    'assets/img/heart.png'
+  ]; //이미지 path 지정, 하드코딩 해야할듯
 
   @override
   void initState() {
     super.initState();
-    for (int i = 0; i < paths.length; i++) {
+
+    //build 되기 전에 데이터 옮겨오기
+    WidgetsBinding.instance?.addPostFrameCallback((_){
+      for (int i = 0; i < paths.length; i++) {
       setCustomMapPin(i);
-    }
+      }
+    });
   }
 
   void setCustomMapPin(index) async {
     markerIcon = await getBytesFromAsset(paths[index], 130);
     markerIcons.add(BitmapDescriptor.fromBytes(markerIcon));
+  }
+
+  void test() async{
+    for (int i = 0; i < paths.length; i++) {
+      setCustomMapPin(i);
+    }
+  }
+
+  void setInitMarker() {
+    List<Marker> _items = items.map((BookMark _items) => addedMarker(
+            _items.position, 0, _scaffoldKey, markerIcons, _items.index))
+        .toList();
+    mymarkers.markerlist.addAll(_items);
   }
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
@@ -105,14 +127,8 @@ class MapSampleState extends State<MapSample> {
     setState(() {
       _customInfoWindowController.hideInfoWindow!();
       (markers.markerlist).clear(); //전에 찍은 곳은 안보이게 -> 클리어하고 add
-      (markers.markerlist).add(currentMarker(
-          cordinate,
-          id,
-          context,
-          _customInfoWindowController,
-          mymarkers,
-          _scaffoldKey,
-          markerIcons));
+      (markers.markerlist).add(currentMarker(cordinate, id, context,
+          _customInfoWindowController, mymarkers, _scaffoldKey, markerIcons));
     });
   } //추가 : 현재 bottom modal 창에서 북마크 추가를 해도 마커가 없어지지 않음! clear 해줘야 할 듯.
 
@@ -120,6 +136,8 @@ class MapSampleState extends State<MapSample> {
   Widget build(BuildContext context) {
     // ignore: sized_box_for_whitespace
     final med = MediaQuery.of(context).size;
+    setInitMarker();
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(

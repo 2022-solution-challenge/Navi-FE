@@ -8,7 +8,7 @@ Marker addedMarker(cordinate, id, key, icon, index) {
   return Marker(
     position: cordinate,
     markerId: MarkerId(id.toString()),
-    icon: icon[1],
+    icon: ( (id != 0 ) ? icon[1] : BitmapDescriptor.defaultMarker),
     onTap: () {
       showModalBottomSheet<void>(
           context: key.currentContext,
