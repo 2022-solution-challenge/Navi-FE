@@ -68,20 +68,26 @@ class MapSampleState extends State<MapSample> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   // 지도 클릭 시 표시할 장소에 대한 마커 목록
-  final markers = new PrimitiveWrapper([]); //markers : 현재 선택한 marker로, onTap으로 infowindow와 bottommodal이 올라가게 동작
-  final mymarkers = new PrimitiveWrapper([]); //mymarkers : 내가 북마크에 추가한 marker로, 눌러도 특별한 동작이 되지 않음
-
+  final markers = new PrimitiveWrapper(
+      []); //markers : 현재 선택한 marker로, onTap으로 infowindow와 bottommodal이 올라가게 동작
+  final mymarkers = new PrimitiveWrapper(
+      []); //mymarkers : 내가 북마크에 추가한 marker로, 눌러도 특별한 동작이 되지 않음
 
   late Uint8List markerIcon;
+  List<BitmapDescriptor> markerIcons = [];
+  List<String> paths = ['assets/img/star.png', 'assets/img/heart.png']; //이미지 path 지정, 하드코딩 해야할듯
 
   @override
   void initState() {
     super.initState();
-    setCustomMapPin();
+    for (int i = 0; i < paths.length; i++) {
+      setCustomMapPin(i);
+    }
   }
 
-  void setCustomMapPin() async {
-    markerIcon = await getBytesFromAsset('assets/img/star.png', 130);
+  void setCustomMapPin(index) async {
+    markerIcon = await getBytesFromAsset(paths[index], 130);
+    markerIcons.add(BitmapDescriptor.fromBytes(markerIcon));
   }
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
@@ -89,8 +95,9 @@ class MapSampleState extends State<MapSample> {
     ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
         targetWidth: width);
     ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))
-        !.buffer.asUint8List();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
+        .buffer
+        .asUint8List();
   }
 
   showMarker(cordinate) {
@@ -98,8 +105,14 @@ class MapSampleState extends State<MapSample> {
     setState(() {
       _customInfoWindowController.hideInfoWindow!();
       (markers.markerlist).clear(); //전에 찍은 곳은 안보이게 -> 클리어하고 add
-      (markers.markerlist).add(currentMarker(cordinate, id, context,
-          _customInfoWindowController, mymarkers, _scaffoldKey, BitmapDescriptor.fromBytes(markerIcon) ));
+      (markers.markerlist).add(currentMarker(
+          cordinate,
+          id,
+          context,
+          _customInfoWindowController,
+          mymarkers,
+          _scaffoldKey,
+          markerIcons));
     });
   } //추가 : 현재 bottom modal 창에서 북마크 추가를 해도 마커가 없어지지 않음! clear 해줘야 할 듯.
 

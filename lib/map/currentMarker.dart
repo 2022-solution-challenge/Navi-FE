@@ -3,12 +3,21 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:clippy_flutter/triangle.dart';
 import 'addedMarker.dart';
 
+// class PrimitiveWrapper {
+//   List<BitmapDescriptor> markericon;
+//   PrimitiveWrapper(this.markericon);
+// }
+
 Marker currentMarker(
     cordinate, id, context, _customInfoWindowController, mymarkers, key, icon) {
+  BitmapDescriptor currentIcon = icon[0];
+
+  // final markerImage = new PrimitiveWrapper([currentIcon]);
+
   return Marker(
     position: cordinate,
     markerId: MarkerId(id.toString()),
-    icon: icon,
+    icon: currentIcon,
     onTap: () {
       _customInfoWindowController.addInfoWindow!(
         Column(
@@ -40,7 +49,7 @@ Marker currentMarker(
               onTap: () {
                 showModalBottomSheet<void>(
                     context: context,
-                    barrierColor: Colors.white.withOpacity(0),
+                    barrierColor: Colors.black.withOpacity(0.3),
                     builder: (BuildContext context) {
                       return Container(
                         height: 200,
@@ -50,14 +59,17 @@ Marker currentMarker(
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              const Text('Modal BottomSheet'),
+                              const Text('현재 선택한 마커'),
+                              SelectButton(),
                               ElevatedButton(
                                 child: const Text('북마크에 추가하기'),
                                 onPressed: () {
-                                  mymarkers.markerlist.add( addedMarker(cordinate, id, key) );
+                                  //api 쏴주는 부분
+                                  mymarkers.markerlist.add(
+                                      addedMarker(cordinate, id, key, icon));
                                   Navigator.pop(context);
                                 },
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -79,4 +91,58 @@ Marker currentMarker(
       );
     },
   );
+}
+
+class MyButtonModal {
+  final String buttonText;
+  // New field to uniquely identify a button
+  final int index;
+
+  MyButtonModal({this.buttonText = 'default', this.index = -1});
+}
+
+class SelectButton extends StatefulWidget {
+  SelectButton({Key? key}) : super(key: key);
+
+  @override
+  _SelectButtonState createState() => _SelectButtonState();
+}
+
+class _SelectButtonState extends State<SelectButton> {
+  List<MyButtonModal> _a = List.generate( 5,(index) => MyButtonModal(buttonText: "Button ${index + 1}", index: index));
+
+  int index = 0; //초기 인덱스, 얼마든지 바꿀 수 있다.
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 70 ,
+      child: GridView.count(
+        childAspectRatio: 1,
+        crossAxisSpacing: 20,
+        crossAxisCount: 5,
+        physics: new NeverScrollableScrollPhysics(),
+        children: _a.map((MyButtonModal f) {
+          return InkWell(
+            child: Container(
+              height: 10,
+                decoration: BoxDecoration(
+                    // Check if f.index == index
+                    color: f.index == index ? Colors.blue : Colors.white,
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Color(0xffaaaaaa))),
+                child: Center(
+                  child: Text(f.buttonText),
+                )),
+            onTap: () {
+              // When button is tapped update index to the index of the button
+              setState(() {
+                index = f.index;
+              });
+            },
+          );
+        }).toList(),
+      ),
+    );
+  }
 }

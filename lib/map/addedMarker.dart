@@ -3,11 +3,12 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:clippy_flutter/triangle.dart';
 import 'map.dart';
 
-Marker addedMarker(cordinate, id, key) {
+Marker addedMarker(cordinate, id, key, icon) {
 
   return Marker(
     position: cordinate,
     markerId: MarkerId(id.toString()),
+    icon: icon[1],
     onTap: () {
       showModalBottomSheet<void>(
           context: key.currentContext,
