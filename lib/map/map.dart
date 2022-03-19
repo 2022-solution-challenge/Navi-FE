@@ -5,9 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart';
-import 'package:retrofit/retrofit.dart';
-import 'package:dio/dio.dart';
-import 'package:json_annotation/json_annotation.dart';
+import 'package:http/http/dart' as http;
 
 class MapApp extends StatelessWidget{
   const MapApp({Key? key}) : super(key: key);
@@ -125,3 +123,13 @@ class MapSampleState extends State<MapSample> {
 
 }
 
+//location data가져오는 부분
+void getLocationData() async {
+  String url = "";
+  var response = await http.get(url);
+  var statusCode = response.statusCode;
+  var responseHeaders = response.headers;
+  var responseBody = response.body;
+
+
+}
