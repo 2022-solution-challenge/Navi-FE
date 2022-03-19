@@ -73,7 +73,7 @@ class MapSampleState extends State<MapSample> {
             width: med.width,
             // height: MediaQuery.of(context).size.height,
             // width : 300,
-            height: med.height*0.9,
+            height: med.height*0.6,
             child: GoogleMap(
               mapType: MapType.normal,
               markers: Set.from(_markers),
@@ -88,13 +88,7 @@ class MapSampleState extends State<MapSample> {
               ),
             ),
           ),
-          TextField(
 
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Where to go?',
-            ),
-          )
 
         ],
       )
@@ -102,6 +96,6 @@ class MapSampleState extends State<MapSample> {
 
   }
 
-
-
 }
+
+class
