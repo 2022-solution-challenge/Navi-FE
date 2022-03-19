@@ -1,11 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart';
+import 'package:retrofit/retrofit.dart';
+import 'package:dio/dio.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 class MapApp extends StatelessWidget{
   const MapApp({Key? key}) : super(key: key);
@@ -63,6 +65,8 @@ class MapSampleState extends State<MapSample> {
     // ignore: sized_box_for_whitespace
     // med => media query calculate
     final med = MediaQuery.of(context).size;
+    final textController = TextEditingController();
+    String? textToFind;
     // _locationData = locateUser();
 
     return Scaffold(
@@ -88,6 +92,29 @@ class MapSampleState extends State<MapSample> {
               ),
             ),
           ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: TextField(
+                  controller: textController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Where to go?',
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 20.0,
+              ),
+              OutlinedButton(
+                onPressed: (){
+                  textToFind = textController.text;
+                  //Respond to button press
+                },
+                child: Text("Find"),
+              )
+            ],
+          )
 
 
         ],
@@ -98,4 +125,3 @@ class MapSampleState extends State<MapSample> {
 
 }
 
-class

@@ -23,7 +23,7 @@ class TogoInput extends StatefulWidget {
 
 class TogoInputState extends State<TogoInput>{
 
-  final textController = TextEditingController();
+  const
 
   @override
   Widget build(BuildContext context){
