@@ -4,10 +4,11 @@ import 'package:clippy_flutter/triangle.dart';
 import 'addedMarker.dart';
 
 Marker currentMarker(
-    cordinate, id, context, _customInfoWindowController, mymarkers, key) {
+    cordinate, id, context, _customInfoWindowController, mymarkers, key, icon) {
   return Marker(
     position: cordinate,
     markerId: MarkerId(id.toString()),
+    icon: icon,
     onTap: () {
       _customInfoWindowController.addInfoWindow!(
         Column(
