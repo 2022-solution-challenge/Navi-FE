@@ -77,7 +77,8 @@ Marker currentMarker(
                                       id,
                                       key,
                                       icon,
-                                      selectbtn.index, markerData));
+                                      selectbtn.index,
+                                      markerData));
                                   Navigator.pop(context);
                                 },
                               ),

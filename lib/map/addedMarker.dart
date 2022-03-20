@@ -34,8 +34,7 @@ Marker addedMarker(cordinate, id, key, icon, index, myData) {
 }
 
 class LikeBtn extends StatelessWidget {
-  // This widget is the root of your application.
-
+  
   BookMark myLike;
   LikeBtn(this.myLike);
 
@@ -49,7 +48,7 @@ class LikeBtn extends StatelessWidget {
     myLike.likeNum =
         myLike.isCheckedLike ? myLike.likeNum + 1 : myLike.likeNum - 1;
 
-    //데이터 쏴주기
+    //데이터 쏴주기!! 
     return !isLiked;
   }
 
@@ -70,8 +69,9 @@ class LikeBtn extends StatelessWidget {
               size: 50,
               likeCountPadding: const EdgeInsets.all(10.0),
               likeCount: myLike.likeNum,
+              isLiked:myLike.isCheckedLike,
               onTap: onLikeButtonTapped,
-              likeBuilder: (bool islike) {
+              likeBuilder: (like) {
                 return Icon(
                   Icons.flag,
                   color: like ? Colors.red : Colors.grey,
