@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './mapDest.dart';
 
 class MapApp extends StatelessWidget{
   const MapApp({Key? key}) : super(key: key);
@@ -6,15 +7,15 @@ class MapApp extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return Center(
-      child: Column(
-        children: <Widget>[
-          Text("Where to Go? SEARCH"),
-          SizedBox(
-            height: 20.0,
-          ),
-          ToGoInput()
-        ],
-      ),
+        child: Column(
+          children: <Widget>[
+            Text("Where to Go? SEARCH"),
+            SizedBox(
+              height: 20.0,
+            ),
+            ToGoInput()
+          ],
+        )
     );
   }
 }
@@ -38,34 +39,39 @@ class ToGoInputState extends State<ToGoInput>{
   }
   @override
   Widget build(BuildContext context){
-    return Scaffold(
-      body: ListView(
-        children : [
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: TextField(
-                  controller: textController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Where to go?',
-                  ),
-                ),
+    return Container(
+      // height: 300,
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: TextField(
+              controller: textController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Where to go?',
               ),
-
-              SizedBox(
-                width: 20.0,
-              ),
-
-              OutlinedButton(
-                onPressed: (){
-                  textToFind = textController.text;
-                },
-                child: Text("Find"),
-              ),
-            ],
+            ),
           ),
-        ]
+
+          SizedBox(
+            width: 20.0,
+          ),
+
+          OutlinedButton(
+            onPressed: (){
+              textToFind = textController.text;
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MapDest(
+                    dest : textToFind
+                  )
+                )
+              );
+            },
+            child: Text("Find"),
+          ),
+        ],
       ),
     );
   }

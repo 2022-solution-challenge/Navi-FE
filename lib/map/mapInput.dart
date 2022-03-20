@@ -1,11 +1,7 @@
 // ignore_for_file: prefer_const_constructors
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'dart:async';
-import 'package:geolocator/geolocator.dart';
-import 'package:location/location.dart';
-import 'package:http/http/dart' as http;
+
 
 class MapApp extends StatelessWidget{
   const MapApp({Key? key}) : super(key: key);
