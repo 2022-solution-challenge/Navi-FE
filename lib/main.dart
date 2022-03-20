@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'home/home-page.dart';
 import 'map/map.dart';
+import 'navi/naviMain.dart';
 
 void main() => runApp(const MyApp());
 
@@ -44,7 +45,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     UserPage(),
-    MapApp(),
+    NaviApp(),
   ];
 
   void _onItemTapped(int index) {
@@ -95,8 +96,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.map),
-            label: 'map',
-          ),
+            label: 'navi',
+          )
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Color.fromARGB(255, 255, 128, 122),

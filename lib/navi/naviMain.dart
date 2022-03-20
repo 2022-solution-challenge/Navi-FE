@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import './mapDest.dart';
 
-class MapApp extends StatelessWidget{
-  const MapApp({Key? key}) : super(key: key);
+class NaviApp extends StatelessWidget{
+  const NaviApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context){
@@ -61,12 +61,12 @@ class ToGoInputState extends State<ToGoInput>{
             onPressed: (){
               textToFind = textController.text;
               Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MapDest(
-                    dest : textToFind
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MapDest(
+                          dest : textToFind
+                      )
                   )
-                )
               );
             },
             child: Text("Find"),
