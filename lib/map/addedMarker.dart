@@ -8,7 +8,7 @@ Marker addedMarker(cordinate, id, key, icon, index) {
   return Marker(
     position: cordinate,
     markerId: MarkerId(id.toString()),
-    icon: ( (id != 0 ) ? icon[1] : BitmapDescriptor.defaultMarker),
+    icon: ( icon[1]),
     onTap: () {
       showModalBottomSheet<void>(
           context: key.currentContext,
@@ -22,7 +22,7 @@ Marker addedMarker(cordinate, id, key, icon, index) {
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Text("${index} 번"),
+                    Text("${icon[1].toString()} 번"),
                     ElevatedButton(
                       child: Text("좋아요"),
                       onPressed: () {

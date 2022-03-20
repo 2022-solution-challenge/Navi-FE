@@ -8,6 +8,7 @@ import 'package:custom_info_window/custom_info_window.dart';
 import 'currentMarker.dart';
 import 'addedMarker.dart';
 import 'bookMark.dart';
+import 'package:flutter/foundation.dart';
 
 import 'dart:async';
 import 'dart:math';
@@ -87,29 +88,56 @@ class MapSampleState extends State<MapSample> {
     super.initState();
 
     //build 되기 전에 데이터 옮겨오기
-    WidgetsBinding.instance?.addPostFrameCallback((_){
-      for (int i = 0; i < paths.length; i++) {
-      setCustomMapPin(i);
-      }
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      setInitMarker();
     });
   }
 
-  void setCustomMapPin(index) async {
-    markerIcon = await getBytesFromAsset(paths[index], 130);
-    markerIcons.add(BitmapDescriptor.fromBytes(markerIcon));
-  }
+  Future<void> setIconImg() async {
+    int i = 0;
 
-  void test() async{
-    for (int i = 0; i < paths.length; i++) {
-      setCustomMapPin(i);
+    // Future.doWhile(() async {
+    //   await setCustomMapPin(i);
+    //   i++;
+    //   debugPrint('converteData: $i');
+    //   return !(i < paths.length);
+    // });
+
+
+    // Future.forEach([0, 1], (number) async {
+    //   await setCustomMapPin(number);
+    //   debugPrint('converteData: $number');
+    // });
+
+    for (i = 0; i < paths.length; i++) {
+      await setCustomMapPin(i);
+      debugPrint('converteData: $i');
     }
   }
 
-  void setInitMarker() {
-    List<Marker> _items = items.map((BookMark _items) => addedMarker(
+  
+
+  Future<void> setCustomMapPin(index) async {
+    await Future.delayed(Duration(milliseconds: index*50)); //give delay to load the data...
+    markerIcon = await getBytesFromAsset(paths[index], 130);
+    markerIcons.add(BitmapDescriptor.fromBytes(markerIcon));
+
+    debugPrint('==========end convert ${index}============');
+  }
+
+  void setInitMarker() async {
+    await setIconImg();
+
+    debugPrint('mapping data ===================');
+    await Future.delayed(Duration(milliseconds: 100));
+    List<Marker> _items = await items
+        .map((BookMark _items) => addedMarker(
             _items.position, 0, _scaffoldKey, markerIcons, _items.index))
         .toList();
     mymarkers.markerlist.addAll(_items);
+    debugPrint('setinitmarker============');
+    
+    setState(() {});
   }
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
@@ -136,7 +164,8 @@ class MapSampleState extends State<MapSample> {
   Widget build(BuildContext context) {
     // ignore: sized_box_for_whitespace
     final med = MediaQuery.of(context).size;
-    setInitMarker();
+
+    debugPrint('build ===================');
 
     return Scaffold(
       key: _scaffoldKey,

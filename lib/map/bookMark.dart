@@ -13,5 +13,5 @@ class BookMark {
 }
 
 List<BookMark> items = [
-	BookMark(LatLng(37.5, 126.9294254), 3, 50, false),
+	BookMark( LatLng(37.5, 126.9294254), 3, 50, false),
 ];

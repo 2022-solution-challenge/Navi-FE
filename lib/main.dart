@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'home/home-page.dart';
 import 'map/map.dart';
 import 'intro/login.dart';
+import 'dart:developer';
 
 void main() => runApp(const MyApp());
 
@@ -46,7 +47,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     UserPage(),
-    MapApp(),
+    MapSample(),
   ];
 
   void _onItemTapped(int index) {
