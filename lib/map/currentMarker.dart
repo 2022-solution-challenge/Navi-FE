@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:clippy_flutter/triangle.dart';
 import 'addedMarker.dart';
+import 'bookMark.dart';
 
 class PrimitiveWrapper {
   int index;
@@ -13,6 +14,8 @@ Marker currentMarker(
   BitmapDescriptor currentIcon = icon[0];
 
   final selectedIndex = new PrimitiveWrapper(0);
+
+  BookMark markerData = BookMark(cordinate, 0, 0, id, false);
 
   // final markerImage = new PrimitiveWrapper([currentIcon]);
 
@@ -69,8 +72,12 @@ Marker currentMarker(
                                 child: const Text('북마크에 추가하기'),
                                 onPressed: () {
                                   //api 쏴주는 부분
-                                  mymarkers.markerlist.add(
-                                      addedMarker(cordinate, id, key, icon, selectbtn.index));
+                                  mymarkers.markerlist.add(addedMarker(
+                                      cordinate,
+                                      id,
+                                      key,
+                                      icon,
+                                      selectbtn.index, markerData));
                                   Navigator.pop(context);
                                 },
                               ),

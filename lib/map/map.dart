@@ -132,8 +132,12 @@ class MapSampleState extends State<MapSample> {
     await Future.delayed(Duration(milliseconds: 100));
     List<Marker> _items = await items
         .map((BookMark _items) => addedMarker(
-            _items.position, 0, _scaffoldKey, markerIcons, _items.index))
+            _items.position, 0, _scaffoldKey, markerIcons, _items.index, _items))
         .toList();
+    //데이터를 받아오는 부분
+    //좋아요를 어케하지??
+    //일단 객체 그 자체를 넘겨준다.
+    
     mymarkers.markerlist.addAll(_items);
     debugPrint('setinitmarker============');
     
