@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'home/home-page.dart';
-import 'map/map.dart';
 import 'navi/naviMain.dart';
 
 void main() => runApp(const MyApp());
