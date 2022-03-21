@@ -1,8 +1,9 @@
+import 'dart:async';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import './directions_model.dart';
+
 class DirectionRepository{
   static const String _baseUrl =
       'https://maps.googleapis.com/maps/api/directions/json';
@@ -12,7 +13,7 @@ class DirectionRepository{
 
   DirectionRepository({Dio? dio}) : _dio = dio ?? Dio();
 
-  FutureOr<Directions> getDirections({
+  Future<Directions> getDirections({
     required LatLng origin,
     required LatLng destination,
   }) async {
@@ -26,7 +27,10 @@ class DirectionRepository{
     );
 
     if(response.statusCode == 200){
-      return Directions.fromMap(response.data);
+      if(Directions.fromMap(response.data)!=null) {
+        return Directions.fromMap(response.data);
+      }
+      // return Directions.fromMap(response.data);
     }
   }
 }

@@ -63,8 +63,7 @@ class ToGoInputState extends State<ToGoInput>{
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => MapDest(
-                          dest : textToFind
+                      builder: (context) => NaviMainApp(
                       )
                   )
               );
