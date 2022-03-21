@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'home/home-page.dart';
 import 'map/map.dart';
+import 'intro/login.dart';
+import 'dart:developer';
 
 void main() => runApp(const MyApp());
 
@@ -11,12 +13,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: _title,
-      home: MyStatefulWidget(),
+      home: LoginScreen(),
     );
   }
 }
+
+//MyStatefulWidget()
 
 class UserPage extends StatelessWidget {
   const UserPage({Key? key}) : super(key: key);
@@ -43,7 +47,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     UserPage(),
-    MapApp(),
+    MapSample(),
   ];
 
   void _onItemTapped(int index) {
@@ -54,34 +58,48 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
-    
-    AppBar buildAppBar() {
-    return AppBar(
-      backgroundColor: Color.fromARGB(255, 255, 155, 155),
-      elevation: 0,
-      leading: IconButton(
-        icon: Icon(Icons.backspace),
-        onPressed: () {},
-      ),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.search),
-          onPressed: () {},
-        ),
-        IconButton(
-          icon: Icon(Icons.home),
-          onPressed: () {},
-        ),
+    var size = MediaQuery.of(context)
+        .size; //this gonna give us total height and with of our device
 
-        SizedBox(width: 20.0 / 2)
-      ],
-    );
-  }
+    AppBar buildAppBar() {
+      return AppBar(
+        backgroundColor: Color.fromARGB(255, 255, 155, 155),
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.backspace),
+          onPressed: () {},
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: Icon(Icons.home),
+            onPressed: () {},
+          ),
+          SizedBox(width: 20.0 / 2)
+        ],
+      );
+    }
+
     return Scaffold(
       appBar: buildAppBar(),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
+      body: Stack(children: <Widget>[
+        Container(
+          // Here the height of the container is 45% of our total height
+          height: size.height * .20,
+          decoration: BoxDecoration(
+            color: Color(0xFFF5CEB8),
+          ),
+        ),
+        SafeArea(
+            child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Center(
+                  child: _widgetOptions.elementAt(_selectedIndex),
+                )))
+      ]),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -102,7 +120,5 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         onTap: _onItemTapped,
       ),
     );
-
-    
   }
 }
