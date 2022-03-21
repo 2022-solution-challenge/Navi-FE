@@ -23,6 +23,7 @@ Marker addedMarker(cordinate, id, key, icon, index, myData) {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Text("${myData.id} 아이디 입니다"),
+                    Text("${myData.index} 인덱스 입니다"),
                     LikeBtn(myData),
                   ],
                 ),
@@ -34,7 +35,7 @@ Marker addedMarker(cordinate, id, key, icon, index, myData) {
 }
 
 class LikeBtn extends StatelessWidget {
-  
+
   BookMark myLike;
   LikeBtn(this.myLike);
 

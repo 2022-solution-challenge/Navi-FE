@@ -22,8 +22,8 @@ Widget _signUpParents() {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
       color: Colors.purple.withOpacity(.7),
       child: Container(
-          constraints: BoxConstraints.expand(height: 80, width: 300),
-          child: Center(
+          constraints: const BoxConstraints.expand(height: 80, width: 300),
+          child: const Center(
             child: Text('부모 등록'),
           )));
 }

@@ -25,7 +25,7 @@ class RegisterScreen extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: size.height * 0.03),
+            SizedBox(height: size.height * 0.01),
 
             Container(
               alignment: Alignment.center,
@@ -37,7 +37,7 @@ class RegisterScreen extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: size.height * 0.03),
+            SizedBox(height: size.height * 0.01),
 
             Container(
               alignment: Alignment.center,
@@ -49,19 +49,19 @@ class RegisterScreen extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: size.height * 0.03),
+            SizedBox(height: size.height * 0.01),
 
             Container(
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 40),
               child: TextField(
                 decoration: InputDecoration(
-                  labelText: "Username"
+                  labelText: "Email"
                 ),
               ),
             ),
 
-            SizedBox(height: size.height * 0.03),
+            SizedBox(height: size.height * 0.01),
 
             Container(
               alignment: Alignment.center,
@@ -74,7 +74,7 @@ class RegisterScreen extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: size.height * 0.05),
+            SizedBox(height: size.height * 0.03),
 
             Container(
               alignment: Alignment.centerRight,

@@ -1,6 +1,55 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:http/http.dart' as http;
+import 'package:flutter_web_auth/flutter_web_auth.dart';
+import 'dart:convert' show jsonDecode;
+
 import 'package:flutter/material.dart';
 import 'register.dart';
 import 'package:flutter_test_app/main.dart';
+
+Future<void> signIn() async {
+  debugPrint('==========get result ============');
+  // App specific variables
+  final googleClientId =
+      'cliant_key';
+  final callbackUrlScheme =
+      'login_url';
+
+  // Construct the url
+  final url = Uri.https('accounts.google.com', '/o/oauth2/v2/auth', {
+    'client_id': googleClientId,
+    'redirect_uri': '$callbackUrlScheme',
+    'response_type': 'code',
+    'scope': 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
+  });
+
+  debugPrint('==========here is url ${url.toString()}============');
+
+    // Present the dialog to the user
+  final result = await FlutterWebAuth.authenticate(
+        url: url.toString(), callbackUrlScheme: callbackUrlScheme);
+ 
+
+  // // Extract code from resulting url
+  final code = Uri.parse(result).queryParameters['code'];
+
+  debugPrint('==========get result from url ${result}============');
+  debugPrint('==========get result from url ${code}============');
+
+  
+  // // Use this code to get an access token
+  // final response = await http
+  //     .post(Uri.parse('https://www.googleapis.com/oauth2/v4/token'), body: {
+  //   'client_id': googleClientId,
+  //   'redirect_uri': '$callbackUrlScheme
+  //   'grant_type': 'authorization_code',
+  //   'code': code,
+  // });
+
+  // // Get the access token from the response
+  // final accessToken = jsonDecode(response.body)['username'] as String;
+}
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -85,6 +134,10 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ),
+                              
+            ElevatedButton(
+              onPressed: () => {signIn()},
+              child: Text('google Login')),
             Container(
               alignment: Alignment.centerRight,
               margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),

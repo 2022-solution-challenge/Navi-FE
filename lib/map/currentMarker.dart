@@ -72,6 +72,7 @@ Marker currentMarker(
                                 child: const Text('북마크에 추가하기'),
                                 onPressed: () {
                                   //api 쏴주는 부분
+                                  markerData.index = selectbtn.index;
                                   mymarkers.markerlist.add(addedMarker(
                                       cordinate,
                                       id,
