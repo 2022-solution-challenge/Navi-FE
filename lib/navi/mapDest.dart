@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import './directions_repository.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -39,7 +38,7 @@ class _MapScreenState extends State<MapScreen>{
   // );
   late Marker _origin;
   late Marker _destination;
-  late Directions _info;
+  late Directions? _info;
   Set<Marker> markerList = new Set();
   //
   // @override
@@ -87,18 +86,33 @@ class _MapScreenState extends State<MapScreen>{
           _googleMapController.complete(controller);
         },
         markers: markerList,
+        polylines: {
+          if(_info != null)
+              Polyline(
+                polylineId: const PolylineId('overview polyline'),
+                color: Colors.red,
+                width: 5,
+                points: _info.polylinePoints
+                  .map((e) => LatLng(e.latitude, e.longitude))
+                  .toList(),
+              ),
+        },
         onLongPress: _addMarker,
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Colors.white70,
-        onPressed: () => _setCamera(_initialCameraPosition),
+        onPressed: () {
+          _info != null
+              ? _setBounds(_info)
+              : _setCamera(_initialCameraPosition);
+        },
         child: const Icon(Icons.center_focus_strong_outlined),
       ),
     );
   }
 
-  void _addMarker(LatLng pos){
+  void _addMarker(LatLng pos) async {
     if(markerList.length != 1){
       //set origin
       setState(() {
@@ -113,6 +127,8 @@ class _MapScreenState extends State<MapScreen>{
           position: pos,
         );
         markerList.add(_origin);
+
+        _info = null;
       });
     } else {
       //set dest
@@ -125,6 +141,11 @@ class _MapScreenState extends State<MapScreen>{
         );
         markerList.add(_destination);
       });
+
+
+      //Get Directions
+      final directions = await DirectionRepository().getDirections(origin: _origin.position, destination : _destination.position);
+      setState(() => _info = directions);
     }
   }
 
@@ -137,6 +158,14 @@ class _MapScreenState extends State<MapScreen>{
     );
   }
 
-  //Get Directions
-  final directions = await DirectionsRepository()
+  Future<void> _setBounds(Directions? directions) async{
+    final GoogleMapController controller = await _googleMapController.future;
+    if(directions == null){
+      throw new Exception('Direction is null');
+    }
+    controller.animateCamera(
+      CameraUpdate.newLatLngBounds(directions.bounds, 100.0)
+    );
+  }
+
 }
