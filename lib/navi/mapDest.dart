@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import './place.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class MapDest extends StatelessWidget{
   const MapDest({Key? key, @required this.dest}) : super(key: key);
@@ -22,8 +23,11 @@ class MapDest extends StatelessWidget{
 
 //검색 결과 보여주는
 class SearchData extends StatelessWidget{
+
   const SearchData({Key? key, @required this.data}) : super(key: key);
   final String? data;
+
+  final String = dotenv.env('GOOGLE_PLACE_API');
   //init에서 http결과 가져오기
   //https://developers.google.com/maps/documentation/places/web-service/search-text?hl=ko
   Future<Place> fetchPost() async {
