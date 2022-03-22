@@ -19,29 +19,13 @@ class HomePage extends StatelessWidget {
 
 Widget _signUpParents() {
   return Card(
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
-    color: Colors.purple.withOpacity(.7),
-    child:Container(
-            constraints: BoxConstraints.expand(height: 80, width: 300),
-            child: Center(
-      child: Text('부모 등록'),
-    ))
-  );
-}
-
-Widget _whereToGo() {
-  List<DemoCard> _cards = items.map((Item _item) => DemoCard(_item)).toList();
-
-  return Container(
-      child: Column(children: <Widget>[
-    Text('길 찾아가기'),
-    Stack(alignment: AlignmentDirectional.topStart, children: <Widget>[
-      SizedBox(
-        height: 100, // constrain height
-        child: ListView(scrollDirection: Axis.horizontal, children: _cards),
-      )
-    ])
-  ]));
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
+      color: Colors.purple.withOpacity(.7),
+      child: Container(
+          constraints: BoxConstraints.expand(height: 80, width: 300),
+          child: Center(
+            child: Text('부모 등록'),
+          )));
 }
 
 Widget _myRecords() {
@@ -59,3 +43,43 @@ Widget _myRecords() {
     ])
   ]));
 }
+
+Widget _whereToGo() {
+  List<DemoCard> _cards = items.map((Item _item) => DemoCard(_item)).toList();
+
+  return  Container(
+      child: Column(children: <Widget>[
+    Text('길 찾아가기'),
+    Stack(alignment: AlignmentDirectional.topStart, children: <Widget>[
+      SizedBox(
+        height: 100, // constrain height
+        child: ListView(scrollDirection: Axis.horizontal, children: _cards),
+      )
+    ])
+  ]));
+}
+
+/* class WhereToGo extends StatelessWidget {
+  final List<DemoCard> cards;
+
+  WhereToGo({Key? key, required this.cards}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: cards.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DetailScreen(card: cards[index]),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+} */

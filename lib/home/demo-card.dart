@@ -2,8 +2,17 @@ import 'package:flutter/material.dart';
 import 'items.dart';
 
 class DemoCard extends StatelessWidget {
-  DemoCard(this.item);
+
   final Item item;
+
+  String? showName;
+  String? showDiscription;
+
+  DemoCard(this.item){
+    this.showDiscription =  item.description;
+    this.showName = item.name;
+    
+  }
 
   // static final Shadow _shadow =
   //     Shadow(offset: Offset(2.0, 2.0), color: Colors.black26);
@@ -12,13 +21,20 @@ class DemoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(32)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
         color: item.color.withOpacity(.7),
         child: Container(
             constraints: BoxConstraints.expand(height: 200, width: 100),
             child: RawMaterialButton(
-              onPressed: () {},
+              onPressed: () {           
+
+              Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DetailScreen(card: this.item),
+              ),
+
+            );},
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -34,3 +50,26 @@ class DemoCard extends StatelessWidget {
             )));
   }
 }
+
+class DetailScreen extends StatelessWidget {
+  // Todo를 들고 있을 필드를 선언합니다.
+  final Item card;
+
+  // 생성자는 Todo를 인자로 받습니다.
+  DetailScreen({Key? key, required this.card}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // UI를 그리기 위해 Todo를 사용합니다.
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(card.name),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Text(card.description),
+      ),
+    );
+  }
+}
+

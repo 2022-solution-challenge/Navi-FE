@@ -43,6 +43,9 @@ dependencies:
   flutter_dotenv: ^5.0.2
   flutter_polyline_points: ^1.0.0
   google_maps_controller: ^1.2.0
+  custom_info_window: ^1.0.1
+  clippy_flutter: ^2.0.0-nullsafety.1
+  like_button: ^2.0.4
 
 dev_dependencies:
   flutter_test:
@@ -68,8 +71,11 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - .env
+    - assets/img/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
+  #To add assets to your application, add an assets section, like this:
+    
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
