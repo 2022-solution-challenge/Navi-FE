@@ -120,6 +120,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           BottomNavigationBarItem(
             icon: Icon(Icons.map),
             label: 'navi',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map_rounded),
+            label: 'maps',
           )
         ],
         currentIndex: _selectedIndex,

@@ -46,6 +46,8 @@ dependencies:
   custom_info_window: ^1.0.1
   clippy_flutter: ^2.0.0-nullsafety.1
   like_button: ^2.0.4
+  ffi: ^1.1.2
+
 
 dev_dependencies:
   flutter_test:
