@@ -31,9 +31,9 @@ class SearchRepository{
     if(response.statusCode == 200){
       if(SearchData.fromMap(response.data) == null){
         throw new Exception('Error');
-      } else {
-        return SearchData.fromMap(response.data);
       }
+      return SearchData.fromMap(response.data);
+      
     }else{
       throw new Exception('response Error');
     }
