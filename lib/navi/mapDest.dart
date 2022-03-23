@@ -7,9 +7,10 @@ import 'package:google_maps_controller/google_maps_controller.dart';
 
 import 'directions_model.dart';
 
-class NaviMainApp extends StatelessWidget {
+class NaviMainApp extends StatelessWidget{
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return MaterialApp(
       title: 'Navigation Demo',
       debugShowCheckedModeBanner: false,
@@ -64,8 +65,7 @@ class _MapScreenState extends State<MapScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              CameraPosition newPosition = new CameraPosition(
-                  target: markerList.first.position, zoom: 14.5, tilt: 50.0);
+              CameraPosition newPosition = new CameraPosition(target: markerList.first.position,zoom: 14.5,tilt: 50.0);
               _setCamera(newPosition);
             },
             style: TextButton.styleFrom(
@@ -76,8 +76,7 @@ class _MapScreenState extends State<MapScreen> {
           ),
           TextButton(
             onPressed: () {
-              CameraPosition newPosition = new CameraPosition(
-                  target: markerList.last.position, zoom: 14.5, tilt: 50.0);
+              CameraPosition newPosition = new CameraPosition(target: markerList.last.position,zoom: 14.5,tilt: 50.0);
               _setCamera(newPosition);
             },
             style: TextButton.styleFrom(
@@ -124,17 +123,17 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void _addMarker(LatLng pos) async {
-    if (markerList.length != 1) {
+    if(markerList.length != 1){
       //set origin
       setState(() {
-        if (markerList.length >= 2) {
+        if(markerList.length >= 2){
           markerList.clear();
         }
         _origin = Marker(
           markerId: const MarkerId('origin'),
           infoWindow: const InfoWindow(title: 'Origin'),
           icon:
-              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+            BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
           position: pos,
         );
         markerList.add(_origin);
@@ -153,9 +152,9 @@ class _MapScreenState extends State<MapScreen> {
         markerList.add(_destination);
       });
 
+
       //Get Directions
-      final directions = await DirectionRepository().getDirections(
-          origin: _origin.position, destination: _destination.position);
+      final directions = await DirectionRepository().getDirections(origin: _origin.position, destination : _destination.position);
       setState(() => _info = directions);
     }
   }
