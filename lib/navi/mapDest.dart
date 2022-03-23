@@ -4,13 +4,13 @@ import 'package:flutter_test_app/navi/accident_marker.dart';
 import './directions_repository.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_controller/google_maps_controller.dart';
+import 'package:maps_toolkit/maps_toolkit.dart' as mp;
 
 import 'directions_model.dart';
 
-class NaviMainApp extends StatelessWidget{
-
+class NaviMainApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Navigation Demo',
       debugShowCheckedModeBanner: false,
@@ -40,14 +40,18 @@ class _MapScreenState extends State<MapScreen> {
   late Marker _destination;
   Directions? _info;
   Set<Marker> markerList = new Set();
+
   Set<Marker> accidentMarkerList = Set();
   Set<Circle> accidentCircleList = Set();
+
   //
   // @override
   // void dispose(){
   //   _googleMapController.dispose();
   //   super.dispose();
   // }
+  //
+  late List<mp.LatLng> pathPointList;
 
   @override
   void initState() {
@@ -65,7 +69,8 @@ class _MapScreenState extends State<MapScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              CameraPosition newPosition = new CameraPosition(target: markerList.first.position,zoom: 14.5,tilt: 50.0);
+              CameraPosition newPosition = new CameraPosition(
+                  target: markerList.first.position, zoom: 14.5, tilt: 50.0);
               _setCamera(newPosition);
             },
             style: TextButton.styleFrom(
@@ -76,7 +81,8 @@ class _MapScreenState extends State<MapScreen> {
           ),
           TextButton(
             onPressed: () {
-              CameraPosition newPosition = new CameraPosition(target: markerList.last.position,zoom: 14.5,tilt: 50.0);
+              CameraPosition newPosition = new CameraPosition(
+                  target: markerList.last.position, zoom: 14.5, tilt: 50.0);
               _setCamera(newPosition);
             },
             style: TextButton.styleFrom(
@@ -110,30 +116,41 @@ class _MapScreenState extends State<MapScreen> {
         onLongPress: _addMarker,
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).primaryColor,
-        foregroundColor: Colors.white70,
-        onPressed: () {
-          _info != null
-              ? _setBounds(_info)
-              : _setCamera(_initialCameraPosition);
-        },
-        child: const Icon(Icons.center_focus_strong_outlined),
-      ),
+          backgroundColor: Theme.of(context).primaryColor,
+          foregroundColor: Colors.white70,
+          onPressed: () {
+            _info != null
+                ? _setBounds(_info)
+                : _setCamera(_initialCameraPosition);
+          },
+          child: const Text("hello")
+          //const Icon(Icons.center_focus_strong_outlined),
+          ),
     );
   }
 
+  bool isMarkerNearPath(Marker marker) {
+    //LatLng이 정의된 게 달라서 몹시 번거롭다...
+
+    final pointMp =
+        mp.LatLng(marker.position.latitude, marker.position.longitude);
+    return mp.PolygonUtil.isLocationOnPath(pointMp, pathPointList, true);
+  }
+
+  void filterMarker() {}
+
   void _addMarker(LatLng pos) async {
-    if(markerList.length != 1){
+    if (markerList.length != 1) {
       //set origin
       setState(() {
-        if(markerList.length >= 2){
+        if (markerList.length >= 2) {
           markerList.clear();
         }
         _origin = Marker(
           markerId: const MarkerId('origin'),
           infoWindow: const InfoWindow(title: 'Origin'),
           icon:
-            BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
           position: pos,
         );
         markerList.add(_origin);
@@ -152,10 +169,15 @@ class _MapScreenState extends State<MapScreen> {
         markerList.add(_destination);
       });
 
-
       //Get Directions
-      final directions = await DirectionRepository().getDirections(origin: _origin.position, destination : _destination.position);
-      setState(() => _info = directions);
+      final directions = await DirectionRepository().getDirections(
+          origin: _origin.position, destination: _destination.position);
+      setState(() {
+        _info = directions;
+        pathPointList = _info!.polylinePoints
+            .map((e) => mp.LatLng(e.latitude, e.longitude))
+            .toList();
+      });
     }
   }
 
@@ -179,9 +201,10 @@ class _MapScreenState extends State<MapScreen> {
     List<Marker> _accidentMarkerList = [];
     List<Circle> _accidentCircleList = [];
 
+    List<AccidentMarker> accidents = await testAccident();
+
     //marker mapping
-    List<Marker> _items = await testAccident()
-        .map((AccidentMarker _items) => Marker(
+    List<Marker> _items = accidents.map((AccidentMarker _items) => Marker(
             markerId: MarkerId((_items.id).toString()),
             position: LatLng((_items.startLat + _items.endLat) / 2,
                 (_items.startLng + _items.startLng) / 2)))
@@ -189,22 +212,22 @@ class _MapScreenState extends State<MapScreen> {
     _accidentMarkerList.addAll(_items);
 
     //circle mapping
-    List<Circle> _circles = await testAccident()
-        .map((AccidentMarker _circles) => Circle(
+    List<Circle> _circles = accidents.map((AccidentMarker _circles) => Circle(
               circleId: CircleId((_circles.id).toString()),
               center: LatLng((_circles.startLat + _circles.endLat) / 2,
                   (_circles.startLng + _circles.startLng) / 2),
               radius: 1000, //지금 그냥 distance로 하면 너무 작아 보여서 고정 값으로 설정함. 논의필요
               fillColor: Colors.blue.shade100.withOpacity(0.5),
-              strokeColor:  Colors.blue.shade100.withOpacity(0.1),
+              strokeColor: Colors.blue.shade100.withOpacity(0.1),
             ))
         .toList();
 
     _accidentCircleList.addAll(_circles);
-    debugPrint('setinitmarker============');
+
 
     setState(() {
-      debugPrint('====================setState,${_accidentMarkerList}  ===================');
+    debugPrint(
+          '====================setState,${_accidentMarkerList}  ===================');
       accidentMarkerList.addAll(_accidentMarkerList.toSet());
       accidentCircleList.addAll(_accidentCircleList.toSet());
     });
