@@ -8,49 +8,6 @@ import 'package:flutter/material.dart';
 import 'register.dart';
 import 'package:flutter_test_app/main.dart';
 
-Future<void> signIn() async {
-  debugPrint('==========get result ============');
-  // App specific variables
-  final googleClientId =
-      'cliant_key';
-  final callbackUrlScheme =
-      'login_url';
-
-  // Construct the url
-  final url = Uri.https('accounts.google.com', '/o/oauth2/v2/auth', {
-    'client_id': googleClientId,
-    'redirect_uri': '$callbackUrlScheme',
-    'response_type': 'code',
-    'scope': 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
-  });
-
-  debugPrint('==========here is url ${url.toString()}============');
-
-    // Present the dialog to the user
-  final result = await FlutterWebAuth.authenticate(
-        url: url.toString(), callbackUrlScheme: callbackUrlScheme);
- 
-
-  // // Extract code from resulting url
-  final code = Uri.parse(result).queryParameters['code'];
-
-  debugPrint('==========get result from url ${result}============');
-  debugPrint('==========get result from url ${code}============');
-
-  
-  // // Use this code to get an access token
-  // final response = await http
-  //     .post(Uri.parse('https://www.googleapis.com/oauth2/v4/token'), body: {
-  //   'client_id': googleClientId,
-  //   'redirect_uri': '$callbackUrlScheme
-  //   'grant_type': 'authorization_code',
-  //   'code': code,
-  // });
-
-  // // Get the access token from the response
-  // final accessToken = jsonDecode(response.body)['username'] as String;
-}
-
 class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -64,7 +21,7 @@ class LoginScreen extends StatelessWidget {
             Container(
               alignment: Alignment.centerLeft,
               padding: EdgeInsets.symmetric(horizontal: 40),
-              child: Text(
+              child: const Text(
                 "LOGIN",
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -77,7 +34,7 @@ class LoginScreen extends StatelessWidget {
             Container(
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 40),
-              child: TextField(
+              child: const TextField(
                 decoration: InputDecoration(labelText: "Username"),
               ),
             ),
@@ -85,7 +42,7 @@ class LoginScreen extends StatelessWidget {
             Container(
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 40),
-              child: TextField(
+              child: const TextField(
                 decoration: InputDecoration(labelText: "Password"),
                 obscureText: true,
               ),
@@ -93,7 +50,7 @@ class LoginScreen extends StatelessWidget {
             Container(
               alignment: Alignment.centerRight,
               margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-              child: Text(
+              child: const Text(
                 "Forgot your password?",
                 style: TextStyle(fontSize: 12, color: Color(0XFF2661FA)),
               ),
@@ -101,7 +58,7 @@ class LoginScreen extends StatelessWidget {
             SizedBox(height: size.height * 0.05),
             Container(
               alignment: Alignment.centerRight,
-              margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -134,10 +91,6 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ),
-                              
-            ElevatedButton(
-              onPressed: () => {signIn()},
-              child: Text('google Login')),
             Container(
               alignment: Alignment.centerRight,
               margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),

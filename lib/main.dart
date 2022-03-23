@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'home/home-page.dart';
+import 'navi/naviMain.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'map/map.dart';
 import 'intro/login.dart';
 import 'dart:developer';
 
-void main() => runApp(const MyApp());
+//main 함수에 env파일 추가
+void main() async{
+  await dotenv.load(fileName: '.env');
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -47,6 +53,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     UserPage(),
+    NaviApp(),
     MapSample(),
   ];
 
@@ -112,8 +119,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.map),
-            label: 'map',
+            label: 'navi',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map_rounded),
+            label: 'maps',
+          )
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Color.fromARGB(255, 255, 128, 122),
