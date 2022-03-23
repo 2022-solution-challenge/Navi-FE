@@ -180,7 +180,7 @@ class _MapScreenState extends State<MapScreen> {
     List<Circle> _accidentCircleList = [];
 
     //marker mapping
-    List<Marker> _items = await accidnetItems
+    List<Marker> _items = await testAccident()
         .map((AccidentMarker _items) => Marker(
             markerId: MarkerId((_items.id).toString()),
             position: LatLng((_items.startLat + _items.endLat) / 2,
@@ -189,7 +189,7 @@ class _MapScreenState extends State<MapScreen> {
     _accidentMarkerList.addAll(_items);
 
     //circle mapping
-    List<Circle> _circles = await accidnetItems
+    List<Circle> _circles = await testAccident()
         .map((AccidentMarker _circles) => Circle(
               circleId: CircleId((_circles.id).toString()),
               center: LatLng((_circles.startLat + _circles.endLat) / 2,
