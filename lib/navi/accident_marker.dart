@@ -6,7 +6,7 @@ class AccidentMarker {
   final double startLng;
   final double endLat;
   final double endLng;
-  final double distance;
+  final double distance; //double로 바꿔야 할 수도! 
   final String? description;
   final String? state;
 
@@ -46,19 +46,19 @@ List<AccidentMarker> accidnetItems = [
     "startLng": -121.101664,
     "endLat": 38.518811,
     "endLng": -121.101664,
-    "distance": 0,
+    "distance": 0.0,
     "description": "Between Latrobe Rd/Indio Dr and Latrobe Rd - Accident.",
     "state": "CA"
   }),
-    AccidentMarker.fromJson({
-    "id": 6,
+  AccidentMarker.fromJson(  {
+    "id": 4,
     "severity": "2",
-    "startLat": 38.518811,
+    "startLat": 38.528811,
     "startLng": -121.101664,
-    "endLat": 38.518811,
+    "endLat": 38.528811,
     "endLng": -121.101664,
-    "distance": 0,
-    "description": "Between Latrobe Rd and Latrobe Rd/Indio Dr - Accident.",
+    "distance": 0.17,
+    "description": "At I-80/I-580 Northern Split - Accident.",
     "state": "CA"
   }),
 ];

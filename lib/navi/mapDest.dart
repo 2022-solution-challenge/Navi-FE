@@ -29,7 +29,7 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   Completer<GoogleMapController> _googleMapController = Completer();
   static const _initialCameraPosition = CameraPosition(
-    target: LatLng(37.773972, -122.431297),
+    target: LatLng(38.518811, -121.101664),
     zoom: 11.5,
   );
   // var _googleMapController = GoogleMapController(
@@ -95,7 +95,7 @@ class _MapScreenState extends State<MapScreen> {
         onMapCreated: (GoogleMapController controller) {
           _googleMapController.complete(controller);
         },
-        markers: markerList,
+        markers: accidentMarkerList.union(markerList),
         circles: accidentCircleList,
         polylines: {
           if (_info != null)
@@ -195,7 +195,9 @@ class _MapScreenState extends State<MapScreen> {
               circleId: CircleId((_circles.id).toString()),
               center: LatLng((_circles.startLat + _circles.endLat) / 2,
                   (_circles.startLng + _circles.startLng) / 2),
-              radius: _circles.distance,
+              radius: 1000, //지금 그냥 distance로 하면 너무 작아 보여서 고정 값으로 설정함. 논의필요
+              fillColor: Colors.blue.shade100.withOpacity(0.5),
+              strokeColor:  Colors.blue.shade100.withOpacity(0.1),
             ))
         .toList();
 
@@ -203,8 +205,9 @@ class _MapScreenState extends State<MapScreen> {
     debugPrint('setinitmarker============');
 
     setState(() {
-      accidentMarkerList = _accidentMarkerList.toSet();
-      accidentCircleList = _accidentCircleList.toSet();
+      debugPrint('====================setState,${_accidentMarkerList}  ===================');
+      accidentMarkerList.addAll(_accidentMarkerList.toSet());
+      accidentCircleList.addAll(_accidentCircleList.toSet());
     });
     //setState를 사용해서 다시 빌드
   }
