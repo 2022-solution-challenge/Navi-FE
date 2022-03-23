@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_test_app/navi/accident_marker.dart';
 import './directions_repository.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_controller/google_maps_controller.dart';
@@ -26,11 +27,10 @@ class MapScreen extends StatefulWidget {
   _MapScreenState createState() => _MapScreenState();
 }
 
-class _MapScreenState extends State<MapScreen>{
-
+class _MapScreenState extends State<MapScreen> {
   Completer<GoogleMapController> _googleMapController = Completer();
   static const _initialCameraPosition = CameraPosition(
-    target: LatLng(37.773972, -122.431297),
+    target: LatLng(38.518811, -121.101664),
     zoom: 11.5,
   );
   // var _googleMapController = GoogleMapController(
@@ -40,6 +40,8 @@ class _MapScreenState extends State<MapScreen>{
   late Marker _destination;
   Directions? _info;
   Set<Marker> markerList = new Set();
+  Set<Marker> accidentMarkerList = Set();
+  Set<Circle> accidentCircleList = Set();
   //
   // @override
   // void dispose(){
@@ -48,7 +50,14 @@ class _MapScreenState extends State<MapScreen>{
   // }
 
   @override
-  Widget build(BuildContext context){
+  void initState() {
+    super.initState();
+
+    setInitAccidentMarker();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -82,20 +91,21 @@ class _MapScreenState extends State<MapScreen>{
         myLocationButtonEnabled: false,
         zoomControlsEnabled: false,
         initialCameraPosition: _initialCameraPosition,
-        onMapCreated: (GoogleMapController controller){
+        onMapCreated: (GoogleMapController controller) {
           _googleMapController.complete(controller);
         },
-        markers: markerList,
+        markers: accidentMarkerList.union(markerList),
+        circles: accidentCircleList,
         polylines: {
-          if(_info != null)
-              Polyline(
-                polylineId: const PolylineId('overview polyline'),
-                color: Colors.red,
-                width: 5,
-                points: _info!.polylinePoints
+          if (_info != null)
+            Polyline(
+              polylineId: const PolylineId('overview polyline'),
+              color: Colors.red,
+              width: 5,
+              points: _info!.polylinePoints
                   .map((e) => LatLng(e.latitude, e.longitude))
                   .toList(),
-              )
+            )
         },
         onLongPress: _addMarker,
       ),
@@ -151,21 +161,53 @@ class _MapScreenState extends State<MapScreen>{
 
   Future<void> _setCamera(CameraPosition cp) async {
     final GoogleMapController controller = await _googleMapController.future;
-    controller.animateCamera(
-      CameraUpdate.newCameraPosition(
-        cp
-      )
-    );
+    controller.animateCamera(CameraUpdate.newCameraPosition(cp));
   }
 
-  Future<void> _setBounds(Directions? directions) async{
+  Future<void> _setBounds(Directions? directions) async {
     final GoogleMapController controller = await _googleMapController.future;
-    if(directions == null){
+    if (directions == null) {
       throw new Exception('Direction is null');
     }
-    controller.animateCamera(
-      CameraUpdate.newLatLngBounds(directions.bounds, 100.0)
-    );
+    controller
+        .animateCamera(CameraUpdate.newLatLngBounds(directions.bounds, 100.0));
   }
 
+  void setInitAccidentMarker() async {
+    debugPrint('mapping data ===================');
+
+    List<Marker> _accidentMarkerList = [];
+    List<Circle> _accidentCircleList = [];
+
+    //marker mapping
+    List<Marker> _items = await accidnetItems
+        .map((AccidentMarker _items) => Marker(
+            markerId: MarkerId((_items.id).toString()),
+            position: LatLng((_items.startLat + _items.endLat) / 2,
+                (_items.startLng + _items.startLng) / 2)))
+        .toList();
+    _accidentMarkerList.addAll(_items);
+
+    //circle mapping
+    List<Circle> _circles = await accidnetItems
+        .map((AccidentMarker _circles) => Circle(
+              circleId: CircleId((_circles.id).toString()),
+              center: LatLng((_circles.startLat + _circles.endLat) / 2,
+                  (_circles.startLng + _circles.startLng) / 2),
+              radius: 1000, //지금 그냥 distance로 하면 너무 작아 보여서 고정 값으로 설정함. 논의필요
+              fillColor: Colors.blue.shade100.withOpacity(0.5),
+              strokeColor:  Colors.blue.shade100.withOpacity(0.1),
+            ))
+        .toList();
+
+    _accidentCircleList.addAll(_circles);
+    debugPrint('setinitmarker============');
+
+    setState(() {
+      debugPrint('====================setState,${_accidentMarkerList}  ===================');
+      accidentMarkerList.addAll(_accidentMarkerList.toSet());
+      accidentCircleList.addAll(_accidentCircleList.toSet());
+    });
+    //setState를 사용해서 다시 빌드
+  }
 }

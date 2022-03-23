@@ -1,3 +1,9 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:http/http.dart' as http;
+import 'package:flutter_web_auth/flutter_web_auth.dart';
+import 'dart:convert' show jsonDecode;
+
 import 'package:flutter/material.dart';
 import 'register.dart';
 import 'package:flutter_test_app/main.dart';
@@ -15,7 +21,7 @@ class LoginScreen extends StatelessWidget {
             Container(
               alignment: Alignment.centerLeft,
               padding: EdgeInsets.symmetric(horizontal: 40),
-              child: Text(
+              child: const Text(
                 "LOGIN",
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -28,7 +34,7 @@ class LoginScreen extends StatelessWidget {
             Container(
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 40),
-              child: TextField(
+              child: const TextField(
                 decoration: InputDecoration(labelText: "Username"),
               ),
             ),
@@ -36,7 +42,7 @@ class LoginScreen extends StatelessWidget {
             Container(
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 40),
-              child: TextField(
+              child: const TextField(
                 decoration: InputDecoration(labelText: "Password"),
                 obscureText: true,
               ),
@@ -44,7 +50,7 @@ class LoginScreen extends StatelessWidget {
             Container(
               alignment: Alignment.centerRight,
               margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-              child: Text(
+              child: const Text(
                 "Forgot your password?",
                 style: TextStyle(fontSize: 12, color: Color(0XFF2661FA)),
               ),
@@ -52,7 +58,7 @@ class LoginScreen extends StatelessWidget {
             SizedBox(height: size.height * 0.05),
             Container(
               alignment: Alignment.centerRight,
-              margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
