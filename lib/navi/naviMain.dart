@@ -1,8 +1,31 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import './mapDest.dart';
+import './searchData.dart';
+import './searchDataModel.dart';
+import './searchDataRepository.dart';
 
-class NaviApp extends StatelessWidget{
+class NaviApp extends StatefulWidget{
   const NaviApp({Key? key}) : super(key: key);
+
+  @override
+  State<NaviApp> createState() => NaviAppState();
+}
+class NaviAppState extends State<NaviApp>{
+
+  SearchData? naviSearchData;
+  void setSearchData(String query) async {
+
+    //잘못 눌렸을 경우 대비용 null BTN
+    if (query == null){
+      return;
+    }
+    SearchData? nowData = await SearchRepository().getInfomation(name: query);
+    setState(() {
+      naviSearchData = nowData;
+    });
+  }
 
   @override
   Widget build(BuildContext context){
@@ -13,7 +36,11 @@ class NaviApp extends StatelessWidget{
             SizedBox(
               height: 20.0,
             ),
-            ToGoInput()
+            ToGoInput(setSearchData),
+            SizedBox(
+              height: 40.0,
+            ),
+            SearchResult(searchData: naviSearchData),
           ],
         )
     );
@@ -23,7 +50,9 @@ class NaviApp extends StatelessWidget{
 
 //Make StateFul widget
 class ToGoInput extends StatefulWidget{
-  const ToGoInput({Key? key}) : super(key: key);
+  const ToGoInput(this.changeQuery);
+
+  final void Function(String) changeQuery;
 
   @override
   State<ToGoInput> createState() => ToGoInputState();
@@ -61,13 +90,7 @@ class ToGoInputState extends State<ToGoInput>{
           OutlinedButton(
             onPressed: (){
               textToFind = textController.text;
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => NaviMainApp(
-                      )
-                  )
-              );
+              final
             },
             child: Text("Find"),
           ),
@@ -76,3 +99,4 @@ class ToGoInputState extends State<ToGoInput>{
     );
   }
 }
+
