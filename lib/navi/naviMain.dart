@@ -43,6 +43,7 @@ class ToGoInputState extends State<ToGoInput>{
       // height: 300,
       child: Row(
         children: <Widget>[
+          
           Expanded(
             child: TextField(
               controller: textController,
