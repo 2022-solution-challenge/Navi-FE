@@ -44,6 +44,11 @@ class _MapScreenState extends State<MapScreen> {
   Set<Marker> accidentMarkerList = Set();
   Set<Circle> accidentCircleList = Set();
 
+  Set<Marker> nearMarkerList = Set();
+  Set<Circle> nearCircleList = Set();
+
+  int totalNum = 0;
+
   //
   // @override
   // void dispose(){
@@ -100,7 +105,7 @@ class _MapScreenState extends State<MapScreen> {
         onMapCreated: (GoogleMapController controller) {
           _googleMapController.complete(controller);
         },
-        markers: accidentMarkerList.union(markerList),
+        markers: nearMarkerList.union(markerList),
         circles: accidentCircleList,
         polylines: {
           if (_info != null)
@@ -123,21 +128,40 @@ class _MapScreenState extends State<MapScreen> {
                 ? _setBounds(_info)
                 : _setCamera(_initialCameraPosition);
           },
-          child: const Text("hello")
+          child: Text(totalNum.toString())
           //const Icon(Icons.center_focus_strong_outlined),
           ),
     );
   }
 
   bool isMarkerNearPath(Marker marker) {
-    //LatLng이 정의된 게 달라서 몹시 번거롭다...
+    //LatLng이 정의된 게 달라서 몹시 번거롭다..
 
     final pointMp =
         mp.LatLng(marker.position.latitude, marker.position.longitude);
-    return mp.PolygonUtil.isLocationOnPath(pointMp, pathPointList, true);
+    return mp.PolygonUtil.isLocationOnPath(pointMp, pathPointList, false);
   }
 
-  void filterMarker() {}
+  void filterMarker() {
+    List<Marker> temp = accidentMarkerList.toList();
+
+    //marker filtering with condition
+    List<Marker> _items = temp
+        .map((Marker _items) => (isMarkerNearPath(_items)
+            ? _items
+            : const Marker(
+                markerId: MarkerId('0'),
+                position: LatLng(0, 0),
+                visible: false))) //개선사항 : 현재 가까이 있지 않을때(isMarkerNearPath가 false일때) null을 넣으면 뻑나서 비어 있는 마커를 넣었다. 근데 안 넣는 방법은 없을까?
+        .toList();
+
+    setState(() {
+      nearMarkerList.clear();
+      nearMarkerList.addAll(_items.toSet());
+
+      totalNum = nearMarkerList.length;
+    });
+  }
 
   void _addMarker(LatLng pos) async {
     if (markerList.length != 1) {
@@ -177,6 +201,8 @@ class _MapScreenState extends State<MapScreen> {
         pathPointList = _info!.polylinePoints
             .map((e) => mp.LatLng(e.latitude, e.longitude))
             .toList();
+
+        filterMarker();
       });
     }
   }
@@ -204,7 +230,8 @@ class _MapScreenState extends State<MapScreen> {
     List<AccidentMarker> accidents = await testAccident();
 
     //marker mapping
-    List<Marker> _items = accidents.map((AccidentMarker _items) => Marker(
+    List<Marker> _items = accidents
+        .map((AccidentMarker _items) => Marker(
             markerId: MarkerId((_items.id).toString()),
             position: LatLng((_items.startLat + _items.endLat) / 2,
                 (_items.startLng + _items.startLng) / 2)))
@@ -212,7 +239,8 @@ class _MapScreenState extends State<MapScreen> {
     _accidentMarkerList.addAll(_items);
 
     //circle mapping
-    List<Circle> _circles = accidents.map((AccidentMarker _circles) => Circle(
+    List<Circle> _circles = accidents
+        .map((AccidentMarker _circles) => Circle(
               circleId: CircleId((_circles.id).toString()),
               center: LatLng((_circles.startLat + _circles.endLat) / 2,
                   (_circles.startLng + _circles.startLng) / 2),
@@ -224,9 +252,8 @@ class _MapScreenState extends State<MapScreen> {
 
     _accidentCircleList.addAll(_circles);
 
-
     setState(() {
-    debugPrint(
+      debugPrint(
           '====================setState,${_accidentMarkerList}  ===================');
       accidentMarkerList.addAll(_accidentMarkerList.toSet());
       accidentCircleList.addAll(_accidentCircleList.toSet());
