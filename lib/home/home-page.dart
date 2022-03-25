@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
 Widget _signUpParents() {
   return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
-      color: Colors.purple.withOpacity(.7),
+      color: Colors.purple.withOpacity(1),
       child: Container(
           constraints: const BoxConstraints.expand(height: 80, width: 300),
           child: const Center(

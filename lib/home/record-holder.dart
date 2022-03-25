@@ -30,9 +30,9 @@ class MyRecord extends StatelessWidget {
                         Card(
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
                             color: item.color.withOpacity(.7),
-                          child:Container(
-                            child: Center(
-                              child: Text('안심 귀가 완료'),
+                            child: Container(
+                              child: const Center(
+                                child: Text('안심 귀가 완료'),
                               ))
                               )
                       ]),
