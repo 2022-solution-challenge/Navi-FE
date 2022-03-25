@@ -146,14 +146,15 @@ class _MapScreenState extends State<MapScreen> {
     List<Marker> temp = accidentMarkerList.toList();
 
     //marker filtering with condition
-    List<Marker> _items = temp
-        .map((Marker _items) => (isMarkerNearPath(_items)
-            ? _items
-            : const Marker(
-                markerId: MarkerId('0'),
-                position: LatLng(0, 0),
-                visible: false))) //개선사항 : 현재 가까이 있지 않을때(isMarkerNearPath가 false일때) null을 넣으면 뻑나서 비어 있는 마커를 넣었다. 근데 안 넣는 방법은 없을까?
-        .toList();
+    List<Marker> _items = temp.where((i) => isMarkerNearPath(i)).toList();
+
+    // .map((Marker _items) => (isMarkerNearPath(_items)
+    //     ? _items
+    //     : const Marker(
+    //         markerId: MarkerId('0'),
+    //         position: LatLng(0, 0),
+    //         visible: false))) //개선사항 : 현재 가까이 있지 않을때(isMarkerNearPath가 false일때) null을 넣으면 뻑나서 비어 있는 마커를 넣었다. 근데 안 넣는 방법은 없을까?
+    // .toList();
 
     setState(() {
       nearMarkerList.clear();
@@ -222,8 +223,6 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void setInitAccidentMarker() async {
-    debugPrint('mapping data ===================');
-
     List<Marker> _accidentMarkerList = [];
     List<Circle> _accidentCircleList = [];
 
@@ -253,8 +252,6 @@ class _MapScreenState extends State<MapScreen> {
     _accidentCircleList.addAll(_circles);
 
     setState(() {
-      debugPrint(
-          '====================setState,${_accidentMarkerList}  ===================');
       accidentMarkerList.addAll(_accidentMarkerList.toSet());
       accidentCircleList.addAll(_accidentCircleList.toSet());
     });

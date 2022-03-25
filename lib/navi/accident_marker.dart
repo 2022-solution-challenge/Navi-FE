@@ -59,11 +59,8 @@ class AccidentMarker {
 //dummy list, should call api to show this values.
 
 Future<List<AccidentMarker>> testAccident() async {
-
-  debugPrint('===========call APIS, ${GetAccidentList().getAccident().runtimeType}==========');
   
   List<dynamic> temp = await GetAccidentList().getAccident();
-  debugPrint('===========END==========');
   final testvar = AccidentMarkerList.fromJson(temp);
 
   return testvar.accidents;
