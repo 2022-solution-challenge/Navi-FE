@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_test_app/navi/accident_marker.dart';
-import './directions_repository.dart';
+import 'package:flutter_test_app/navi/mapModel/accident_marker.dart';
+import 'directions_repository.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_controller/google_maps_controller.dart';
 import 'package:maps_toolkit/maps_toolkit.dart' as mp;
@@ -61,7 +61,6 @@ class _MapScreenState extends State<MapScreen> {
   @override
   void initState() {
     super.initState();
-
     setInitAccidentMarker();
   }
 
@@ -223,6 +222,7 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void setInitAccidentMarker() async {
+
     List<Marker> _accidentMarkerList = [];
     List<Circle> _accidentCircleList = [];
 
