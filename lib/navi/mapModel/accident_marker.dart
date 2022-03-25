@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_test_app/navi/get_accidet_list.dart';
+import 'package:flutter_test_app/navi/mapModel/get_accidet_list.dart';
 
 class AccidentMarkerList {
   final List<AccidentMarker> accidents;
