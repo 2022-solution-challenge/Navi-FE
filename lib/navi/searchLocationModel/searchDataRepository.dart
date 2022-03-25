@@ -1,13 +1,15 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import './searchDataModel.dart';
+import 'searchDataModel.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 class SearchRepository{
 
   static const String _baseUrl =
-    'https://maps.googleapis.com/maps/api/place/findplacefromtext/json';
+    'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?fields=formatted_address%2Cname%2Crating%2Copening_hours%2Cgeometry';
 
   final Dio _dio;
   final String APIKEY = dotenv.get('GOOGLE_PLACE_API');
@@ -20,7 +22,6 @@ class SearchRepository{
     final response = await _dio.get(
       _baseUrl,
       queryParameters: {
-        'fields' : 'formatted_address%2Cname%2Crating%2Copening_hours%2Cgeometry',
         'input' : '${name}',
         'inputtype' :'textquery',
         'key' : APIKEY
