@@ -9,6 +9,7 @@ class SearchResult extends StatefulWidget{
   bool isLoaded;
   SearchData? searchData;
 
+
   @override
   State<SearchResult> createState() => SearchResultState();
 }
@@ -58,3 +59,4 @@ class SearchResultState extends State<SearchResult>{
   }
 
 }
+
