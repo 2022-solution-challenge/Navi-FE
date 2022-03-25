@@ -1,7 +1,7 @@
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:flutter/material.dart';
-import './searchDataModel.dart';
-import './mapDest.dart';
+import 'searchDataModel.dart';
+import '../mapModel/mapDest.dart';
 
 class SearchResult extends StatefulWidget{
 

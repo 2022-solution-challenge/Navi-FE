@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import './searchDataModel.dart';
+import 'searchDataModel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
