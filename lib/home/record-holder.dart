@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'record.dart';
 
 class MyRecord extends StatelessWidget {
@@ -11,39 +12,61 @@ class MyRecord extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(32)),
-        color: Colors.white.withOpacity(.7),
-        child: Container(
-            constraints: BoxConstraints.expand(height: 80, width: 100),
+    return Container(
+       height: 85,
+       margin: EdgeInsets.only(bottom: 13),
+            padding:EdgeInsets.only(left: 10, top: 12, bottom: 12, right: 10),
+            decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15)),
             child: RawMaterialButton(
               onPressed: () {},
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Text(item.date, style: _style.copyWith(fontSize: 10)),
-                        Card(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
-                            color: item.color.withOpacity(.7),
+              child: Stack(
+                        children: <Widget>[
+                          Positioned(
+                            left: 29,
+                            top: 5,
+                            child: Text(
+                              item.date,
+                              style: GoogleFonts.inter(
+                                  fontSize: 15,),
+                            ),
+                          ),
+                          Positioned(
+                            right: 21,
+                            top: 5,
                             child: Container(
-                              child: const Center(
-                                child: Text('안심 귀가 완료'),
-                              ))
-                              )
-                      ]),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Text(item.destination, style: _style.copyWith(fontSize: 30)),
-                        Text(item. timeInterval, style: _style.copyWith(fontSize: 10)),
-                      ])
-                ],
-              ),
-            )));
+                              height: 20,
+                              width: 110,
+                              decoration: BoxDecoration(
+                               color: Color.fromARGB(179, 255, 92, 92),
+                               borderRadius: BorderRadius.circular(15)),
+                              child: Text('안심 귀가 완료', textAlign: TextAlign.center, style: GoogleFonts.inter(color:Colors.white)),
+                              
+                              ),
+                          ),
+                          Positioned(
+                            left: 29,
+                            bottom: 5,
+                            child: Text(
+                              item.destination,
+                              style: GoogleFonts.inter(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                          Positioned(
+                            right: 21,
+                            bottom: 5,
+                            child: Text(
+                              item. timeInterval,
+                              style: GoogleFonts.inter(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,),
+                            ),
+                          )
+                        ],
+              )  
+            ));
   }
 }

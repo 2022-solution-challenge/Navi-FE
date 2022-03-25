@@ -10,65 +10,53 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: <Widget>[
-      _signUpParents(),
-      _whereToGo(),
-      _myRecords(),
+    return ListView(
+            physics: const ClampingScrollPhysics(),
+            children: <Widget>[
+              _signUpParents(),
+              _whereToGo(),
+              _myRecords(),
     ]);
   }
 }
 
 Widget _signUpParents() {
   return Container(
-     height: 100,
-     width: 344,
-     margin: EdgeInsets.only(right: 10, left:10, top:10),
-     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(28),
-                        color: Color.fromARGB(255, 195, 17, 17),
-                      ),
-     child: Stack(
-       children: <Widget>[
-            // Positioned(
-            //   child: SvgPicture.asset(cards[index].cardElementTop),
-            // ),
-            // Positioned(
-            //   bottom: 0,
-            //   right: 0,
-            //   child:
-            //       SvgPicture.asset(cards[index].cardElementBottom),
-            // ), 사진을 넣는 부분
-            Positioned(
-              left: 29,
-              top: 60,
-              child: Text(
-                "Connect with parents",
-                style: GoogleFonts.inter(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white),
-              ),
-            ),
-            const Positioned(
-              right: 21,
-              top: 20,
-              child: Icon(Icons.arrow_right, color: Colors.white70, size: 27),
-            ),
-            Positioned(
-              left: 29,
-              top: 20,
-              child: Text(
-                '카드를 눌러 부모님과 연동할 수 있어요',
-                style: GoogleFonts.inter(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.white70),
-              ),
-            ),
-          ]
-          )
-        );
-  
+      height: 100,
+      width: 344,
+      margin: EdgeInsets.only(right: 10, left: 10, top: 10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(28),
+        color: Color.fromARGB(179, 255, 92, 92),
+      ),
+      child: Stack(children: <Widget>[
+        Positioned(
+          left: 29,
+          top: 60,
+          child: Text(
+            "Connect with parents",
+            style: GoogleFonts.inter(
+                fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white),
+          ),
+        ),
+        const Positioned(
+          right: 21,
+          top: 20,
+          child: Icon(Icons.arrow_right, color: Colors.white70, size: 27),
+        ),
+        Positioned(
+          left: 29,
+          top: 20,
+          child: Text(
+            '카드를 눌러 부모님과 연동할 수 있어요',
+            style: GoogleFonts.inter(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: Colors.white70),
+          ),
+        ),
+      ]));
+
   // Card(
   //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
   //     color: Colors.purple.withOpacity(1),
@@ -84,12 +72,29 @@ Widget _myRecords() {
       records.map((Record _record) => MyRecord(_record)).toList();
 
   return Container(
-      child: Column(children: <Widget>[
-    Text('최근 내 기록'),
+    child: Column(children: <Widget>[
+    Padding(
+        padding:EdgeInsets.only(left: 16, bottom: 13, right: 10, top:10),
+        child:  Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+         Text(
+          'Recent Histories',
+           style: GoogleFonts.inter(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black),),
+        ],
+      )
+        
+              ),
     Stack(alignment: AlignmentDirectional.topStart, children: <Widget>[
       SizedBox(
-        height: 400, // constrain height
-        child: ListView(scrollDirection: Axis.vertical, children: _records),
+        child: ListView(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          scrollDirection: Axis.vertical, 
+          children: _records),
       )
     ])
   ]));
@@ -98,17 +103,31 @@ Widget _myRecords() {
 Widget _whereToGo() {
   List<DemoCard> _cards = items.map((Item _item) => DemoCard(_item)).toList();
 
-  return  
-  Container(
-      child: Column(children: <Widget>[
-    Text('길 찾아가기'),
-    Stack(alignment: AlignmentDirectional.topStart, children: <Widget>[
-      SizedBox(
-        height: 100, // constrain height
-        child: ListView(scrollDirection: Axis.horizontal, children: _cards),
-      )
-    ])
-  ]));
+  int current = 0;
+
+  return Container(
+    child:Column(
+      children: <Widget>[    
+      Padding(
+      padding: EdgeInsets.only(left: 16, top: 30, right: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(
+            '길 찾아가기',
+            style: GoogleFonts.inter(
+                fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),
+          ),
+        ],
+      ),
+    ),
+    Container(
+      height: 123,
+      child: ListView(padding: EdgeInsets.only(left: 5, bottom: 10, top: 10, right: 5), scrollDirection: Axis.horizontal, children: _cards)
+      ),
+    ]
+  )
+);
 }
 
 /* class WhereToGo extends StatelessWidget {
