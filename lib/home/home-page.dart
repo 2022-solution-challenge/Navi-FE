@@ -10,12 +10,11 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-            physics: const ClampingScrollPhysics(),
-            children: <Widget>[
-              _signUpParents(),
-              _whereToGo(),
-              _myRecords(),
+    return ListView(physics: const ClampingScrollPhysics(), children: <Widget>[
+      _description(),
+      _signUpParents(),
+      _whereToGo(),
+      _myRecords(),
     ]);
   }
 }
@@ -56,15 +55,6 @@ Widget _signUpParents() {
           ),
         ),
       ]));
-
-  // Card(
-  //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
-  //     color: Colors.purple.withOpacity(1),
-  //     child: Container(
-  //         constraints: const BoxConstraints.expand(height: 80, width: 300),
-  //         child: const Center(
-  //           child: Text('부모 등록'),
-  //         )));
 }
 
 Widget _myRecords() {
@@ -72,29 +62,28 @@ Widget _myRecords() {
       records.map((Record _record) => MyRecord(_record)).toList();
 
   return Container(
-    child: Column(children: <Widget>[
+      child: Column(children: <Widget>[
     Padding(
-        padding:EdgeInsets.only(left: 16, bottom: 13, right: 10, top:10),
-        child:  Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-         Text(
-          'Recent Histories',
-           style: GoogleFonts.inter(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.black),),
-        ],
-      )
-        
-              ),
+        padding: EdgeInsets.only(left: 16, bottom: 13, right: 10, top: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              'Recent Histories',
+              style: GoogleFonts.inter(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black),
+            ),
+          ],
+        )),
     Stack(alignment: AlignmentDirectional.topStart, children: <Widget>[
       SizedBox(
         child: ListView(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          scrollDirection: Axis.vertical, 
-          children: _records),
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            scrollDirection: Axis.vertical,
+            children: _records),
       )
     ])
   ]));
@@ -106,9 +95,8 @@ Widget _whereToGo() {
   int current = 0;
 
   return Container(
-    child:Column(
-      children: <Widget>[    
-      Padding(
+      child: Column(children: <Widget>[
+    Padding(
       padding: EdgeInsets.only(left: 16, top: 30, right: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -116,41 +104,41 @@ Widget _whereToGo() {
           Text(
             '길 찾아가기',
             style: GoogleFonts.inter(
-              fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),
+                fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),
           ),
         ],
       ),
     ),
     Container(
-      height: 123,
-      child: ListView(padding: EdgeInsets.only(left: 5, bottom: 10, top: 10, right: 5), scrollDirection: Axis.horizontal, children: _cards)
-      ),
-    ]
-  )
-);
+        height: 123,
+        child: ListView(
+            padding: EdgeInsets.only(left: 5, bottom: 10, top: 10, right: 5),
+            scrollDirection: Axis.horizontal,
+            children: _cards)),
+  ]));
 }
 
-/* class WhereToGo extends StatelessWidget {
-  final List<DemoCard> cards;
-
-  WhereToGo({Key? key, required this.cards}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: cards.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DetailScreen(card: cards[index]),
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-} */
+Widget _description() {
+  return Padding(
+    padding: EdgeInsets.only(left: 16, bottom: 16, top:40),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'for your Safety,',
+          style: GoogleFonts.inter(
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        Text(
+          'Here is Navi',
+          style: GoogleFonts.inter(
+            fontSize: 30,
+            fontWeight: FontWeight.w700,
+          ),
+        )
+      ],
+    ),
+  );
+}
