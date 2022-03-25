@@ -16,10 +16,10 @@ class SearchData{
 
     final data = Map<String, dynamic>.from(map['candidates'][0]);
 
-    final loca = data['location'];
+    final loca = data['geometry'];
     final bounds = LatLng(
-      loca['lat'], 
-      loca['lng']
+      loca['location']['lat'],
+      loca['location']['lng']
     );
 
     String address = data['formatted_address'];
