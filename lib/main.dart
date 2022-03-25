@@ -52,9 +52,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(),
-    UserPage(),
-    NaviApp(),
     MapSample(),
+    UserPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -110,23 +109,20 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 )))
       ]),
       bottomNavigationBar: BottomNavigationBar(
+        unselectedItemColor: Color.fromARGB(255, 223, 223, 223),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.map_rounded),
+            label: 'maps',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
             label: 'User',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: 'navi',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map_rounded),
-            label: 'maps',
-          )
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Color.fromARGB(255, 255, 128, 122),

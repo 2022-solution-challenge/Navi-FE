@@ -116,7 +116,7 @@ Widget _whereToGo() {
           Text(
             '길 찾아가기',
             style: GoogleFonts.inter(
-                fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),
+              fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),
           ),
         ],
       ),
