@@ -16,13 +16,13 @@ class DemoCard extends StatelessWidget {
 
   // static final Shadow _shadow =
   //     Shadow(offset: Offset(2.0, 2.0), color: Colors.black26);
-  final TextStyle _style = TextStyle(color: Colors.white70);
+  final TextStyle _style = TextStyle(color: Color.fromARGB(255, 0, 0, 0));
 
   @override
   Widget build(BuildContext context) {
     return Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
-        color: item.color.withOpacity(.7),
+        color: Colors.white, //item.color.withOpacity(1)
         child: Container(
             constraints: BoxConstraints.expand(height: 200, width: 100),
             child: RawMaterialButton(
