@@ -8,6 +8,10 @@ import 'package:maps_toolkit/maps_toolkit.dart' as mp;
 import 'directions_model.dart';
 
 class NaviMainApp extends StatelessWidget {
+
+  const NaviMainApp({Key? key, required this.DestLocation}) : super(key: key);
+  final LatLng DestLocation;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -16,12 +20,16 @@ class NaviMainApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MapScreen(),
+      home: MapScreen(destLocation: this.DestLocation,),
     );
   }
 }
 
 class MapScreen extends StatefulWidget {
+
+  final LatLng destLocation;
+  const MapScreen({Key? key, required this.destLocation}) : super(key: key);
+
   @override
   _MapScreenState createState() => _MapScreenState();
 }
@@ -32,13 +40,51 @@ class _MapScreenState extends State<MapScreen> {
     target: LatLng(38.518811, -121.101664),
     zoom: 11.5,
   );
-  // var _googleMapController = GoogleMapController(
-  //   initialCameraPosition : _initialCameraPosition,
-  // );
   late Marker _origin;
   late Marker _destination;
-  Directions? _info;
   Set<Marker> markerList = new Set();
+  late Directions _info;
+
+
+  @override
+  void initState() {
+
+    //마커 제작 및 추가
+    _origin = Marker(
+      markerId: const MarkerId('origin'),
+      infoWindow: const InfoWindow(title: 'Origin'),
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+      position: const LatLng(
+          37.87189568090562,
+          -122.25841638772661
+      ),
+    );
+    _destination = Marker(
+      markerId: const MarkerId('destination'),
+      infoWindow: const InfoWindow(title: 'Destination'),
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+      position: widget.destLocation,
+    );
+    markerList.add(_origin);
+    markerList.add(_destination);
+
+
+    // 길찾는 부분
+    DirectionRepository().getDirections(
+        origin: _origin.position, destination: _destination.position
+    ).then((value) => {
+      _info = value,
+      pathPointList = _info.polylinePoints
+        .map((e) => mp.LatLng(e.latitude, e.longitude))
+        .toList(),
+
+        filterMarker(),
+    });
+
+
+    setInitAccidentMarker();
+  }
+
 
   Set<Marker> accidentMarkerList = Set();
   Set<Circle> accidentCircleList = Set();
@@ -48,20 +94,7 @@ class _MapScreenState extends State<MapScreen> {
 
   int totalNum = 0;
 
-  //
-  // @override
-  // void dispose(){
-  //   _googleMapController.dispose();
-  //   super.dispose();
-  // }
-  //
   late List<mp.LatLng> pathPointList;
-
-  @override
-  void initState() {
-    super.initState();
-    setInitAccidentMarker();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +106,10 @@ class _MapScreenState extends State<MapScreen> {
           TextButton(
             onPressed: () {
               CameraPosition newPosition = new CameraPosition(
-                  target: markerList.first.position, zoom: 14.5, tilt: 50.0);
+                  target: LatLng(
+                      (_origin.position.latitude + _destination.position.latitude)/2,
+                    (_origin.position.longitude + _destination.position.longitude)/2
+                  ), zoom: 14.5, tilt: 50.0);
               _setCamera(newPosition);
             },
             style: TextButton.styleFrom(
@@ -85,7 +121,10 @@ class _MapScreenState extends State<MapScreen> {
           TextButton(
             onPressed: () {
               CameraPosition newPosition = new CameraPosition(
-                  target: markerList.last.position, zoom: 14.5, tilt: 50.0);
+                  target: LatLng(
+                      (_origin.position.latitude + _destination.position.latitude)/2,
+                      (_origin.position.longitude + _destination.position.longitude)/2
+                  ), zoom: 14.5, tilt: 50.0);
               _setCamera(newPosition);
             },
             style: TextButton.styleFrom(
@@ -111,12 +150,11 @@ class _MapScreenState extends State<MapScreen> {
               polylineId: const PolylineId('overview polyline'),
               color: Colors.red,
               width: 5,
-              points: _info!.polylinePoints
+              points: _info.polylinePoints
                   .map((e) => LatLng(e.latitude, e.longitude))
                   .toList(),
             )
         },
-        onLongPress: _addMarker,
       ),
       floatingActionButton: FloatingActionButton(
           backgroundColor: Theme.of(context).primaryColor,
@@ -131,6 +169,7 @@ class _MapScreenState extends State<MapScreen> {
           ),
     );
   }
+
 
   bool isMarkerNearPath(Marker marker) {
     //LatLng이 정의된 게 달라서 몹시 번거롭다..
@@ -162,49 +201,6 @@ class _MapScreenState extends State<MapScreen> {
     });
   }
 
-  void _addMarker(LatLng pos) async {
-    if (markerList.length != 1) {
-      //set origin
-      setState(() {
-        if (markerList.length >= 2) {
-          markerList.clear();
-        }
-        _origin = Marker(
-          markerId: const MarkerId('origin'),
-          infoWindow: const InfoWindow(title: 'Origin'),
-          icon:
-              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-          position: pos,
-        );
-        markerList.add(_origin);
-
-        _info = null;
-      });
-    } else {
-      //set dest
-      setState(() {
-        _destination = Marker(
-          markerId: const MarkerId('destination'),
-          infoWindow: const InfoWindow(title: 'Destination'),
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-          position: pos,
-        );
-        markerList.add(_destination);
-      });
-
-      //Get Directions
-      final directions = await DirectionRepository().getDirections(
-          origin: _origin.position, destination: _destination.position);
-      setState(() {
-        _info = directions;
-        pathPointList = _info!.polylinePoints
-            .map((e) => mp.LatLng(e.latitude, e.longitude))
-            .toList();
-
-        filterMarker();
-      });
-    }
-  }
 
   Future<void> _setCamera(CameraPosition cp) async {
     final GoogleMapController controller = await _googleMapController.future;

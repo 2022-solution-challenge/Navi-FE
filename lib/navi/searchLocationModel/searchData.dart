@@ -27,13 +27,16 @@ class SearchResultState extends State<SearchResult>{
       child: widget.isLoaded?
       GestureDetector(
         onTap: (){
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              //페이지 이동하면서 목적지 장소 위치 전달하기
-              builder: (context) => NaviMainApp()
-            ),
-          );
+          if(widget.isLoaded){
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                //페이지 이동하면서 목적지 장소 위치 전달하기
+
+                  builder: (context) => NaviMainApp(DestLocation: widget.searchData!.location)
+              ),
+            );
+          }
         },
         child: Column(
           children: <Widget>[
