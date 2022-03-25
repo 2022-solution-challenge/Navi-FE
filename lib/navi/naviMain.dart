@@ -1,5 +1,5 @@
 import 'dart:developer';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import './mapDest.dart';
 import './searchData.dart';
@@ -13,7 +13,7 @@ class NaviApp extends StatefulWidget{
   State<NaviApp> createState() => NaviAppState();
 }
 class NaviAppState extends State<NaviApp>{
-
+  bool isLoaded = false;
   SearchData? naviSearchData;
   void setSearchData(String query) async {
 
@@ -23,6 +23,7 @@ class NaviAppState extends State<NaviApp>{
     }
     SearchData? nowData = await SearchRepository().getInfomation(name: query);
     setState(() {
+      isLoaded = true;
       naviSearchData = nowData;
     });
   }
@@ -40,7 +41,7 @@ class NaviAppState extends State<NaviApp>{
             SizedBox(
               height: 40.0,
             ),
-            SearchResult(searchData: naviSearchData),
+            SearchResult(searchData: naviSearchData, isLoaded: isLoaded),
           ],
         )
     );
@@ -89,8 +90,9 @@ class ToGoInputState extends State<ToGoInput>{
 
           OutlinedButton(
             onPressed: (){
+              debugPrint("press");
               textToFind = textController.text;
-              final
+              widget.changeQuery(textToFind);
             },
             child: Text("Find"),
           ),
