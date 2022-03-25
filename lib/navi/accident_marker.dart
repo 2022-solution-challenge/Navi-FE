@@ -1,12 +1,29 @@
-class AccidentMarker {
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_test_app/navi/get_accidet_list.dart';
 
+class AccidentMarkerList {
+  final List<AccidentMarker> accidents;
+
+  AccidentMarkerList({
+    required this.accidents,
+  });
+
+  factory AccidentMarkerList.fromJson(List<dynamic> parsedJson) {
+    List<AccidentMarker> accidents = [];
+    accidents = parsedJson.map((i) => AccidentMarker.fromJson(i)).toList();
+
+    return AccidentMarkerList(accidents: accidents);
+  }
+}
+
+class AccidentMarker {
   final int? id;
   final String? severity;
   final double startLat;
   final double startLng;
   final double endLat;
   final double endLng;
-  final double distance; //double로 바꿔야 할 수도! 
+  final double distance; //double로 바꿔야 할 수도!
   final String? description;
   final String? state;
 
@@ -22,6 +39,9 @@ class AccidentMarker {
       this.state});
 
   factory AccidentMarker.fromJson(Map<String, dynamic> json) {
+    if (json['distance'] == 0) {
+      json['distance'] = 0.0;
+    }
     return AccidentMarker(
       id: json['id'],
       severity: json['severity'],
@@ -38,6 +58,14 @@ class AccidentMarker {
 
 //dummy list, should call api to show this values.
 
+Future<List<AccidentMarker>> testAccident() async {
+  
+  List<dynamic> temp = await GetAccidentList().getAccident();
+  final testvar = AccidentMarkerList.fromJson(temp);
+
+  return testvar.accidents;
+}
+
 List<AccidentMarker> accidnetItems = [
   AccidentMarker.fromJson({
     "id": 5,
@@ -50,7 +78,7 @@ List<AccidentMarker> accidnetItems = [
     "description": "Between Latrobe Rd/Indio Dr and Latrobe Rd - Accident.",
     "state": "CA"
   }),
-  AccidentMarker.fromJson(  {
+  AccidentMarker.fromJson({
     "id": 4,
     "severity": "2",
     "startLat": 38.528811,

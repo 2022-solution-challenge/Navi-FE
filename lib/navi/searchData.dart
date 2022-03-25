@@ -3,7 +3,7 @@ import 'dart:html';
 import 'package:flutter/material.dart';
 // import 'package:flutter';
 
-class SearchData extends StatefulWidget{
+class SearchData extends StatefulWidget {
   const SearchData({Key? key}) : super(key: key);
 
   @override
@@ -11,9 +11,8 @@ class SearchData extends StatefulWidget{
 }
 
 class SearchDataState extends State<SearchData> {
-
   @override
-  Widget build(BuildContext context){
-    return 
+  Widget build(BuildContext context) {
+    return
   }
 }
