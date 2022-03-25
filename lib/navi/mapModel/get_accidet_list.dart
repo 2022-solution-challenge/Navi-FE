@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_test_app/navi/accident_marker.dart';
+import 'package:flutter_test_app/navi/mapModel/accident_marker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import './directions_model.dart';
+import 'directions_model.dart';
 
 class GetAccidentList {
   static const String _baseUrl =

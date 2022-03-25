@@ -1,10 +1,10 @@
 import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'mapDest.dart';
-import 'searchData.dart';
-import 'searchDataModel.dart';
-import 'searchDataRepository.dart';
+import 'mapModel/mapDest.dart';
+import 'searchLocationModel/searchData.dart';
+import 'searchLocationModel/searchDataModel.dart';
+import 'searchLocationModel/searchDataRepository.dart';
 
 class NaviApp extends StatefulWidget{
   const NaviApp({Key? key}) : super(key: key);

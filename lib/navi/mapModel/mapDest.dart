@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_test_app/navi/accident_marker.dart';
+import 'package:flutter_test_app/navi/mapModel/accident_marker.dart';
 import 'directions_repository.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_controller/google_maps_controller.dart';
