@@ -27,7 +27,6 @@ class SearchRepository{
         'key' : APIKEY
       }
     );
-    debugPrint("api called");
 
 
     if(response.statusCode == 200){

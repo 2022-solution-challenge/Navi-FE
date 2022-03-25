@@ -172,7 +172,6 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void setInitAccidentMarker() async {
-    debugPrint('mapping data ===================');
 
     List<Marker> _accidentMarkerList = [];
     List<Circle> _accidentCircleList = [];
@@ -199,10 +198,8 @@ class _MapScreenState extends State<MapScreen> {
         .toList();
 
     _accidentCircleList.addAll(_circles);
-    debugPrint('setinitmarker============');
 
     setState(() {
-      debugPrint('====================setState,${_accidentMarkerList}  ===================');
       accidentMarkerList.addAll(_accidentMarkerList.toSet());
       accidentCircleList.addAll(_accidentCircleList.toSet());
     });

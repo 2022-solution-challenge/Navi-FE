@@ -90,7 +90,6 @@ class ToGoInputState extends State<ToGoInput>{
 
           OutlinedButton(
             onPressed: (){
-              debugPrint("press");
               textToFind = textController.text;
               widget.changeQuery(textToFind);
             },
