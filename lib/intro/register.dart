@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
 import 'login.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget{
+
+  @override
+  State<RegisterScreen> createState() => RegisterScreenState();
+}
+class RegisterScreenState extends State<RegisterScreen> {
+
+  late String name;
+  late String number;
+  late String email;
+  late String password;
+
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -80,7 +92,9 @@ class RegisterScreen extends StatelessWidget {
               alignment: Alignment.centerRight,
               margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+
+                },
                 style: ButtonStyle(
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(

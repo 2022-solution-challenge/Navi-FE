@@ -161,7 +161,7 @@ class _MapScreenState extends State<MapScreen> {
               polylineId: const PolylineId('overview polyline'),
               color: Colors.red,
               width: 5,
-              points: _info.polylinePoints
+              points: _info!.polylinePoints
                   .map((e) => LatLng(e.latitude, e.longitude))
                   .toList(),
             )
