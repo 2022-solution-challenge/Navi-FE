@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:clippy_flutter/triangle.dart';
 import 'addedMarker.dart';
@@ -33,7 +34,7 @@ Marker currentMarker(
                 child: InkWell(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.blue,
+                  color: Color(0xffFD8B8B),
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Padding(
@@ -63,13 +64,22 @@ Marker currentMarker(
                         color: Color.fromARGB(255, 255, 255, 255),
                         child: Center(
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              const Text('현재 선택한 마커'),
+                              Text( '현재 선택한 마커',
+                              style: GoogleFonts.inter(
+                            fontSize: 18, fontWeight: FontWeight.w700, color: Color.fromARGB(255, 0, 0, 0)),),
                               selectbtn,
                               ElevatedButton(
-                                child: const Text('북마크에 추가하기'),
+                                style: ElevatedButton.styleFrom(
+                                   primary: Color(0xffFD8B8B),
+                                   minimumSize: const Size.fromHeight(50), // NEW
+                                   ),
+                                child: Text( '북마크에 추가하기',
+            style: GoogleFonts.inter(
+                fontSize: 14, fontWeight: FontWeight.w700, color: Color.fromARGB(255, 255, 255, 255)),
+          ),
                                 onPressed: () {
                                   //api 쏴주는 부분
                                   markerData.index = selectbtn.index;
@@ -93,7 +103,7 @@ Marker currentMarker(
             Triangle.isosceles(
               edge: Edge.BOTTOM,
               child: Container(
-                color: Colors.blue,
+                color: Color(0xffFD8B8B),
                 width: 20.0,
                 height: 10.0,
               ),
@@ -143,6 +153,7 @@ class _SelectButtonState extends State<SelectButton> {
   Widget build(BuildContext context) {
     return Container(
       height: 70,
+      margin: EdgeInsets.only(right: 20, left: 20, top: 10),
       child: GridView.count(
         childAspectRatio: 1,
         crossAxisSpacing: 20,
@@ -155,9 +166,9 @@ class _SelectButtonState extends State<SelectButton> {
                 decoration: BoxDecoration(
                     // Check if f.index == index
                     color:
-                        f.index == widget._index ? Colors.blue : Colors.white,
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: Color(0xffaaaaaa))),
+                        f.index == widget._index ? Color(0xffFD8B8B) : Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Color.fromARGB(255, 255, 92, 92))),
                 child: Center(
                   child: Text(f.buttonText),
                 )),
