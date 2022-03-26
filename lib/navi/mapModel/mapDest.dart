@@ -44,6 +44,7 @@ class _MapScreenState extends State<MapScreen> {
   Directions? _info = null;
 
 
+
   @override
   void initState() {
 
@@ -77,6 +78,7 @@ class _MapScreenState extends State<MapScreen> {
           .map((e) => mp.LatLng(e.latitude, e.longitude))
           .toList(),
 
+
         filterMarker(),
     });
 
@@ -87,6 +89,7 @@ class _MapScreenState extends State<MapScreen> {
       ),
       zoom: 10.5,
     );
+
 
     setInitAccidentMarker();
   }
@@ -115,6 +118,7 @@ class _MapScreenState extends State<MapScreen> {
                   target: LatLng(
                       _origin.position.latitude,
                       _origin.position.longitude
+
                   ), zoom: 14.5, tilt: 50.0);
               _setCamera(newPosition);
             },
@@ -130,6 +134,7 @@ class _MapScreenState extends State<MapScreen> {
                   target: LatLng(
                       _destination.position.latitude,
                       _destination.position.longitude
+
                   ), zoom: 14.5, tilt: 50.0);
               _setCamera(newPosition);
             },
@@ -156,7 +161,7 @@ class _MapScreenState extends State<MapScreen> {
               polylineId: const PolylineId('overview polyline'),
               color: Colors.red,
               width: 5,
-              points: _info!.polylinePoints
+              points: _info.polylinePoints
                   .map((e) => LatLng(e.latitude, e.longitude))
                   .toList(),
             )
