@@ -8,7 +8,6 @@ import 'package:maps_toolkit/maps_toolkit.dart' as mp;
 import 'directions_model.dart';
 
 class NaviMainApp extends StatelessWidget {
-
   const NaviMainApp({Key? key, required this.DestLocation}) : super(key: key);
   final LatLng DestLocation;
 
@@ -20,13 +19,14 @@ class NaviMainApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MapScreen(destLocation: this.DestLocation,),
+      home: MapScreen(
+        destLocation: this.DestLocation,
+      ),
     );
   }
 }
 
 class MapScreen extends StatefulWidget {
-
   final LatLng destLocation;
   const MapScreen({Key? key, required this.destLocation}) : super(key: key);
 
@@ -43,21 +43,16 @@ class _MapScreenState extends State<MapScreen> {
   late Marker _origin;
   late Marker _destination;
   Set<Marker> markerList = new Set();
-  late Directions _info;
-
+  Directions? _info;
 
   @override
   void initState() {
-
     //마커 제작 및 추가
     _origin = Marker(
       markerId: const MarkerId('origin'),
       infoWindow: const InfoWindow(title: 'Origin'),
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-      position: const LatLng(
-          37.87189568090562,
-          -122.25841638772661
-      ),
+      position: const LatLng(37.87189568090562, -122.25841638772661),
     );
     _destination = Marker(
       markerId: const MarkerId('destination'),
@@ -68,23 +63,20 @@ class _MapScreenState extends State<MapScreen> {
     markerList.add(_origin);
     markerList.add(_destination);
 
-
     // 길찾는 부분
-    DirectionRepository().getDirections(
-        origin: _origin.position, destination: _destination.position
-    ).then((value) => {
-      _info = value,
-      pathPointList = _info.polylinePoints
-        .map((e) => mp.LatLng(e.latitude, e.longitude))
-        .toList(),
-
-        filterMarker(),
-    });
-
+    DirectionRepository()
+        .getDirections(
+            origin: _origin.position, destination: _destination.position)
+        .then((value) => {
+              _info = value,
+              pathPointList = _info!.polylinePoints
+                  .map((e) => mp.LatLng(e.latitude, e.longitude))
+                  .toList(),
+              filterMarker(),
+            });
 
     setInitAccidentMarker();
   }
-
 
   Set<Marker> accidentMarkerList = Set();
   Set<Circle> accidentCircleList = Set();
@@ -107,9 +99,14 @@ class _MapScreenState extends State<MapScreen> {
             onPressed: () {
               CameraPosition newPosition = new CameraPosition(
                   target: LatLng(
-                      (_origin.position.latitude + _destination.position.latitude)/2,
-                    (_origin.position.longitude + _destination.position.longitude)/2
-                  ), zoom: 14.5, tilt: 50.0);
+                      (_origin.position.latitude +
+                              _destination.position.latitude) /
+                          2,
+                      (_origin.position.longitude +
+                              _destination.position.longitude) /
+                          2),
+                  zoom: 14.5,
+                  tilt: 50.0);
               _setCamera(newPosition);
             },
             style: TextButton.styleFrom(
@@ -122,9 +119,14 @@ class _MapScreenState extends State<MapScreen> {
             onPressed: () {
               CameraPosition newPosition = new CameraPosition(
                   target: LatLng(
-                      (_origin.position.latitude + _destination.position.latitude)/2,
-                      (_origin.position.longitude + _destination.position.longitude)/2
-                  ), zoom: 14.5, tilt: 50.0);
+                      (_origin.position.latitude +
+                              _destination.position.latitude) /
+                          2,
+                      (_origin.position.longitude +
+                              _destination.position.longitude) /
+                          2),
+                  zoom: 14.5,
+                  tilt: 50.0);
               _setCamera(newPosition);
             },
             style: TextButton.styleFrom(
@@ -150,7 +152,7 @@ class _MapScreenState extends State<MapScreen> {
               polylineId: const PolylineId('overview polyline'),
               color: Colors.red,
               width: 5,
-              points: _info.polylinePoints
+              points: _info!.polylinePoints
                   .map((e) => LatLng(e.latitude, e.longitude))
                   .toList(),
             )
@@ -169,7 +171,6 @@ class _MapScreenState extends State<MapScreen> {
           ),
     );
   }
-
 
   bool isMarkerNearPath(Marker marker) {
     //LatLng이 정의된 게 달라서 몹시 번거롭다..
@@ -201,7 +202,6 @@ class _MapScreenState extends State<MapScreen> {
     });
   }
 
-
   Future<void> _setCamera(CameraPosition cp) async {
     final GoogleMapController controller = await _googleMapController.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(cp));
@@ -217,7 +217,6 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void setInitAccidentMarker() async {
-
     List<Marker> _accidentMarkerList = [];
     List<Circle> _accidentCircleList = [];
 

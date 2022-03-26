@@ -21,13 +21,14 @@ class MapApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Google Maps',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MapSample(),
-    );
+        title: 'Google Maps',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home:
+          MapSample(),
+        );
     // TODO: implement build
     throw UnimplementedError();
   }
@@ -103,7 +104,6 @@ class MapSampleState extends State<MapSample> {
     //   return !(i < paths.length);
     // });
 
-
     // Future.forEach([0, 1], (number) async {
     //   await setCustomMapPin(number);
     //   debugPrint('converteData: $number');
@@ -115,10 +115,9 @@ class MapSampleState extends State<MapSample> {
     }
   }
 
-  
-
   Future<void> setCustomMapPin(index) async {
-    await Future.delayed(Duration(milliseconds: index*50)); //give delay to load the data...
+    await Future.delayed(
+        Duration(milliseconds: index * 50)); //give delay to load the data...
     markerIcon = await getBytesFromAsset(paths[index], 130);
     markerIcons.add(BitmapDescriptor.fromBytes(markerIcon));
 
@@ -131,12 +130,12 @@ class MapSampleState extends State<MapSample> {
     debugPrint('mapping data ===================');
     await Future.delayed(Duration(milliseconds: 100));
     List<Marker> _items = await items
-        .map((BookMark _items) => addedMarker(
-            _items.position, 0, _scaffoldKey, markerIcons, _items.index, _items))
+        .map((BookMark _items) => addedMarker(_items.position, 0, _scaffoldKey,
+            markerIcons, _items.index, _items))
         .toList();
     mymarkers.markerlist.addAll(_items);
     debugPrint('setinitmarker============');
-    
+
     setState(() {});
     //setState를 사용해서 다시 빌드
   }
@@ -170,11 +169,6 @@ class MapSampleState extends State<MapSample> {
 
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        title: Text('Google Maps test'),
-        elevation: 0.0,
-        toolbarHeight: 50,
-      ),
       body: Stack(
           // height: MediaQuery.of(context).size.height,
           // width : 300,
@@ -213,4 +207,8 @@ class MapSampleState extends State<MapSample> {
           ]),
     );
   }
+}
+
+Widget _infoWindow() {
+  return Container();
 }
