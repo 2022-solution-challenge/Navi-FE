@@ -36,14 +36,13 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   Completer<GoogleMapController> _googleMapController = Completer();
-  static const _initialCameraPosition = CameraPosition(
-    target: LatLng(38.518811, -121.101664),
-    zoom: 11.5,
-  );
+
+  late final _initialCameraPosition;
   late Marker _origin;
   late Marker _destination;
   Set<Marker> markerList = new Set();
-  late Directions _info;
+  Directions? _info = null;
+
 
 
   @override
@@ -74,12 +73,22 @@ class _MapScreenState extends State<MapScreen> {
         origin: _origin.position, destination: _destination.position
     ).then((value) => {
       _info = value,
-      pathPointList = _info.polylinePoints
-        .map((e) => mp.LatLng(e.latitude, e.longitude))
-        .toList(),
+      if(_info != null)
+        pathPointList = _info!.polylinePoints
+          .map((e) => mp.LatLng(e.latitude, e.longitude))
+          .toList(),
+
 
         filterMarker(),
     });
+
+    _initialCameraPosition = CameraPosition(
+      target: LatLng(
+          (_origin.position.latitude + _destination.position.latitude)/2,
+          (_origin.position.longitude + _destination.position.longitude)/2
+      ),
+      zoom: 10.5,
+    );
 
 
     setInitAccidentMarker();
@@ -107,8 +116,9 @@ class _MapScreenState extends State<MapScreen> {
             onPressed: () {
               CameraPosition newPosition = new CameraPosition(
                   target: LatLng(
-                      (_origin.position.latitude + _destination.position.latitude)/2,
-                    (_origin.position.longitude + _destination.position.longitude)/2
+                      _origin.position.latitude,
+                      _origin.position.longitude
+
                   ), zoom: 14.5, tilt: 50.0);
               _setCamera(newPosition);
             },
@@ -122,8 +132,9 @@ class _MapScreenState extends State<MapScreen> {
             onPressed: () {
               CameraPosition newPosition = new CameraPosition(
                   target: LatLng(
-                      (_origin.position.latitude + _destination.position.latitude)/2,
-                      (_origin.position.longitude + _destination.position.longitude)/2
+                      _destination.position.latitude,
+                      _destination.position.longitude
+
                   ), zoom: 14.5, tilt: 50.0);
               _setCamera(newPosition);
             },
