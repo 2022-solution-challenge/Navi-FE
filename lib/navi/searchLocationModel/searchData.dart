@@ -24,6 +24,7 @@ class SearchResultState extends State<SearchResult>{
   @override
   Widget build(BuildContext context){
     return Container(
+      margin: EdgeInsets.only(left:20, right: 20),
       child: widget.isLoaded?
       GestureDetector(
         onTap: (){
@@ -32,30 +33,42 @@ class SearchResultState extends State<SearchResult>{
               context,
               MaterialPageRoute(
                 //페이지 이동하면서 목적지 장소 위치 전달하기
-
                   builder: (context) => NaviMainApp(DestLocation: widget.searchData!.location)
               ),
             );
           }
         },
-        child: Column(
+        child: Container(
+          padding: const EdgeInsets.all(30.0),
+           decoration: BoxDecoration(
+              color: Color(0xffFD8B8B),
+              // border: Border.all( 
+              //   width: 10,
+              //   color: Colors.orange, 
+              //    ),
+              borderRadius: BorderRadius.circular(28),
+    ), //  POINT: BoxDecoration
+    child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Text(widget.searchData!.name,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 30,
+                fontSize: 20,
+                color: Colors.white
               ),
             ),
-            SizedBox(height: 40.0),
+            SizedBox(height: 20.0),
             Text(widget.searchData!.address,
               style: TextStyle(
                 fontWeight: FontWeight.w500,
-                fontSize: 20,
+                fontSize: 15,
+                color: Colors.white
               ),
             )
           ],
         ),
-      ) : Text(""),
+      )) : Center(child: Text("어디로 가시겠어요?")),
 
     );
     
