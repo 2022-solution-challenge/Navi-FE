@@ -38,13 +38,13 @@ class NaviAppState extends State<NaviApp> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             _description(),
-            Expanded(
-      child: SearchBar(),
-    ),
             SizedBox(
               height: 20.0,
             ),
-            ToGoInput(setSearchData),
+            SizedBox(
+              height: 100,
+              child: SearchBar(setSearchData),
+            ),
             SizedBox(
               height: 40.0,
             ),
@@ -54,49 +54,55 @@ class NaviAppState extends State<NaviApp> {
   }
 }
 
-//Make StateFul widget
-class ToGoInput extends StatefulWidget {
-  const ToGoInput(this.changeQuery);
+class SearchBar extends StatefulWidget {
+  @override
+  _SearchBar createState() => _SearchBar();
+
+  const SearchBar(this.changeQuery);
 
   final void Function(String) changeQuery;
-
-  @override
-  State<ToGoInput> createState() => ToGoInputState();
 }
 
-class ToGoInputState extends State<ToGoInput> {
-  final textController = TextEditingController();
-  String textToFind = "";
+class _SearchBar extends State<SearchBar> {
+  static const historyLength = 5;
+
+  String selectedTerm = "";
+  FloatingSearchBarController controller = FloatingSearchBarController();
+
   @override
-  void initState() {}
+  void initState() {
+    super.initState();
+    controller = FloatingSearchBarController();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // height: 300,
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: TextField(
-              controller: textController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Search destination',
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 20.0,
-          ),
-          OutlinedButton(
-            onPressed: () {
-              textToFind = textController.text;
-              widget.changeQuery(textToFind);
-            },
-            child: Text("Find"),
-          ),
+    return FloatingSearchBar(
+        controller: controller,
+        backdropColor: Color.fromARGB(255, 249, 249, 249),
+        elevation: 1,
+        title: Text(
+          (selectedTerm!="" ? selectedTerm : 'The Search App'),
+          style: Theme.of(context).textTheme.headline6,
+        ),
+        hint: 'Search and find out...',
+        actions: [
+          FloatingSearchBarAction.searchToClear(),
         ],
-      ),
-    );
+        onSubmitted: (query) {
+          setState(() {
+            selectedTerm = query;
+            widget.changeQuery(selectedTerm);
+          });
+          controller.close();
+        },
+        builder: (context, _) => Text(""));
   }
 }
 
@@ -123,112 +129,4 @@ Widget _description() {
       ],
     ),
   );
-}
-
-class SearchBar extends StatefulWidget {
-  @override
-  _SearchBar createState() => _SearchBar();
-}
-
-class _SearchBar extends State<SearchBar> {
-  static const historyLength = 5;
-
-
-  late List<String> filteredSearchHistory;
-
-  String selectedTerm = "";
-
-
-  FloatingSearchBarController controller =  FloatingSearchBarController();
-
-  @override
-  void initState() {
-    super.initState();
-    controller = FloatingSearchBarController();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FloatingSearchBar(
-      controller: controller,
-      transition: CircularFloatingSearchBarTransition(),
-      physics: BouncingScrollPhysics(),
-      title: Text(
-        selectedTerm ?? 'The Search App',
-        style: Theme.of(context).textTheme.headline6,
-      ),
-      hint: 'Search and find out...',
-      actions: [
-        FloatingSearchBarAction.searchToClear(),
-      ],
-      onSubmitted: (query) {
-        setState(() {
-          selectedTerm = query;
-        });
-        controller.close();
-      },
-      builder: (context, transition) {
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: Material(
-            color: Colors.white,
-            elevation: 4,
-            child: Builder(
-              builder: (context) {
-                if (controller.query.isEmpty) {
-                  return Container(
-                    height: 56,
-                    width: 100,
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Start searching',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.caption,
-                    ),
-                  );
-                } else {
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: filteredSearchHistory
-                        .map(
-                          (term) => ListTile(
-                            title: Text(
-                              term,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            leading: const Icon(Icons.history),
-                            trailing: IconButton(
-                              icon: const Icon(Icons.clear),
-                              onPressed: () {
-                                setState(() {
-
-                                });
-                              },
-                            ),
-                            onTap: () {
-                              setState(() {
-                                selectedTerm = term;
-                              });
-                              controller.close();
-                            },
-                          ),
-                        )
-                        .toList(),
-                  );
-                }
-              },
-            ),
-          ),
-        );
-      },
-    );
-  }
 }
