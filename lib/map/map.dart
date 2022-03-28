@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'currentMarker.dart';
@@ -26,8 +27,19 @@ class MapApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MapSample(),
-    );
+      home: Material(
+        type: MaterialType.transparency,
+        child: 
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            _bookmarkDescription(),
+            Align(
+              child: MapSample(),
+              ),
+          ],
+        ),
+    ));
     // TODO: implement build
     throw UnimplementedError();
   }
@@ -168,14 +180,11 @@ class MapSampleState extends State<MapSample> {
 
     debugPrint('build ===================');
 
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        title: Text('Google Maps test'),
-        elevation: 0.0,
-        toolbarHeight: 50,
-      ),
-      body: Stack(
+    return SizedBox(
+      key : _scaffoldKey,
+      width: MediaQuery.of(context).size.width,  // or use fixed size like 200
+      height: MediaQuery.of(context).size.height-200,
+      child:  Stack(
           // height: MediaQuery.of(context).size.height,
           // width : 300,
           children: <Widget>[
@@ -213,4 +222,30 @@ class MapSampleState extends State<MapSample> {
           ]),
     );
   }
+}
+
+
+Widget _bookmarkDescription() {
+  return Padding(
+    padding: EdgeInsets.only(left: 16, bottom: 16, top:40),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'for your neighbors,',
+          style: GoogleFonts.inter(
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        Text(
+          'Share',
+          style: GoogleFonts.inter(
+            fontSize: 30,
+            fontWeight: FontWeight.w700,
+          ),
+        )
+      ],
+    ),
+  );
 }
