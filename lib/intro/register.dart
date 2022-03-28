@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'login.dart';
 import 'package:http/http.dart' as  http;
+import 'package:localstorage/localstorage.dart';
 
 class RegisterScreen extends StatefulWidget{
 
@@ -53,8 +54,8 @@ class RegisterScreenState extends State<RegisterScreen> {
       }),
     );
 
-    debugPrint(nameController.text);
-    debugPrint(passwordController.text);
+    // debugPrint(nameController.text);
+    // debugPrint(passwordController.text);
     Navigator.pop(context);
   }
   @override
@@ -79,9 +80,8 @@ class RegisterScreenState extends State<RegisterScreen> {
                 ),
                 textAlign: TextAlign.left,
               ),
-              textAlign: TextAlign.left,
+              // textAlign: TextAlign.left,
             ),
-          ),
 
           SizedBox(height: size.height * 0.01),
 
@@ -216,6 +216,7 @@ class RegisterScreenState extends State<RegisterScreen> {
           )
         ],
       ),
+    ),
     );
   }
 }
