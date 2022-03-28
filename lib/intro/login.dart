@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert' show jsonDecode;
-import 'package:flutter/foundation.dart';
+// import 'dart:convert' show jsonDecode;
+// import 'package:flutter/foundation.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'register.dart';
@@ -9,6 +9,7 @@ import 'package:flutter_test_app/main.dart';
 
 
 class LoginScreen extends StatefulWidget{
+
 
   @override
   State<LoginScreen> createState() => LoginScreenState();
@@ -61,7 +62,7 @@ class LoginScreenState extends State<LoginScreen> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => MyStatefulWidget()));
+              builder: (context) => const MyStatefulWidget()));
       return;
     }
     showToast("please check your name and password");
@@ -80,7 +81,7 @@ class LoginScreenState extends State<LoginScreen> {
           children: <Widget>[
             Container(
               alignment: Alignment.centerLeft,
-              padding: EdgeInsets.symmetric(horizontal: 40),
+              padding: const EdgeInsets.symmetric(horizontal: 40),
               child: const Text(
                 "LOGIN",
                 style: TextStyle(
@@ -93,7 +94,7 @@ class LoginScreenState extends State<LoginScreen> {
             SizedBox(height: size.height * 0.03),
             Container(
               alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 40),
+              margin: const EdgeInsets.symmetric(horizontal: 40),
               child: TextField(
                 controller: userNameController,
                 decoration: const InputDecoration(
@@ -104,7 +105,7 @@ class LoginScreenState extends State<LoginScreen> {
             SizedBox(height: size.height * 0.03),
             Container(
               alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 40),
+              margin: const EdgeInsets.symmetric(horizontal: 40),
               child: TextField(
                 controller: passWordController,
                 decoration: const InputDecoration(labelText: "Password"),
@@ -113,7 +114,7 @@ class LoginScreenState extends State<LoginScreen> {
             ),
             Container(
               alignment: Alignment.centerRight,
-              margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
               child: const Text(
                 "Forgot your password?",
                 style: TextStyle(fontSize: 12, color: Color(0xffFD8B8B)),
@@ -126,11 +127,11 @@ class LoginScreenState extends State<LoginScreen> {
               child: ElevatedButton(
                 onPressed: () {
 
-                  if(userNameController.text == "" || userNameController.text == null) {
+                  if(userNameController.text == "") {
                     showToast("please enter your name");
                     return;
                   }
-                  if(passWordController == "" || passWordController.text == null){
+                  if(passWordController.text == ""){
                     showToast("please enter your password");
                     return;
                   }
@@ -148,8 +149,15 @@ class LoginScreenState extends State<LoginScreen> {
                   alignment: Alignment.center,
                   height: 50.0,
                   width: size.width * 0.5,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(80.0),
+                      gradient: const LinearGradient(colors: [
+                        Color.fromARGB(255, 255, 136, 34),
+                        Color.fromARGB(255, 255, 177, 41)
+                      ])),
+
                   padding: const EdgeInsets.all(0),
-                  child: Text(
+                  child: const Text(
                     "LOGIN",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontWeight: FontWeight.bold),
@@ -159,13 +167,13 @@ class LoginScreenState extends State<LoginScreen> {
             ),
             Container(
               alignment: Alignment.centerRight,
-              margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
               child: GestureDetector(
                 onTap: () => {
                 Navigator.push(context,
                   MaterialPageRoute(builder: (context) => RegisterScreen())),
                 },
-                child: Text(
+                child: const Text(
                   "Don't Have an Account? Sign up",
                   style: TextStyle(
                       fontSize: 12,
