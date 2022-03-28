@@ -39,6 +39,23 @@ class UserPage extends StatelessWidget {
   }
 }
 
+class MainApp extends StatelessWidget{
+
+  const MainApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context){
+    return Scaffold(
+      body: WillPopScope(
+        child: MyStatefulWidget(),
+        onWillPop: () {
+          return Future(() => false);
+        },
+      ),
+    );
+  }
+}
+
 class MyStatefulWidget extends StatefulWidget {
   const MyStatefulWidget({Key? key}) : super(key: key);
 
@@ -50,6 +67,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     MapApp(),

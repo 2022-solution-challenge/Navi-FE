@@ -1,4 +1,6 @@
 // import 'package:flutter/cupertino.dart';
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 // import 'dart:convert' show jsonDecode;
 // import 'package:flutter/foundation.dart';
@@ -6,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'register.dart';
 import 'package:flutter_test_app/main.dart';
+
 
 
 class LoginScreen extends StatefulWidget{
@@ -48,21 +51,24 @@ class LoginScreenState extends State<LoginScreen> {
       "password": passWordController.text,
       "username": userNameController.text
     };
-    var url = Uri.https(
-        "solution-challenge-hb6fjqbi3q-du.a.run.app",
-        "/users/login",
-        param
+
+
+    String url = "https://solution-challenge-hb6fjqbi3q-du.a.run.app/users/login";
+
+
+
+    http.Response response = await http.post(
+      Uri.parse(url),
+      headers: <String,String>{
+        'Content-Type' : 'application/json',
+      },
+      body: jsonEncode(param)
     );
-
-
-    final response = await http.get(url);
     debugPrint(response.statusCode.toString());
     if(response.statusCode == 200){
       debugPrint(response.body.toString());
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => const MyStatefulWidget()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => MainApp()));
       return;
     }
     showToast("please check your name and password");
