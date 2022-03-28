@@ -62,18 +62,22 @@ class RegisterScreenState extends State<RegisterScreen> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.symmetric(horizontal: 40),
-            child: const Text(
-              "REGISTER",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF2661FA),
-                fontSize: 36
+
+      body: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              alignment: Alignment.centerLeft,
+              padding: EdgeInsets.symmetric(horizontal: 40),
+              child: Text(
+                "REGISTER",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xffFD8B8B),
+                  fontSize: 36
+                ),
+                textAlign: TextAlign.left,
               ),
               textAlign: TextAlign.left,
             ),
@@ -185,6 +189,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontWeight: FontWeight.bold
+
                   ),
                 ),
               ),
@@ -204,6 +209,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFF2661FA)
+
                 ),
               ),
             ),

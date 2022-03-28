@@ -85,7 +85,7 @@ class LoginScreenState extends State<LoginScreen> {
                 "LOGIN",
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF2661FA),
+                    color: Color(0xffFD8B8B),
                     fontSize: 36),
                 textAlign: TextAlign.left,
               ),
@@ -116,7 +116,7 @@ class LoginScreenState extends State<LoginScreen> {
               margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
               child: const Text(
                 "Forgot your password?",
-                style: TextStyle(fontSize: 12, color: Color(0XFF2661FA)),
+                style: TextStyle(fontSize: 12, color: Color(0xffFD8B8B)),
               ),
             ),
             SizedBox(height: size.height * 0.05),
@@ -138,6 +138,7 @@ class LoginScreenState extends State<LoginScreen> {
 
                 },
                 style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Color(0xffFD8B8B)),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(80.0),
@@ -147,12 +148,6 @@ class LoginScreenState extends State<LoginScreen> {
                   alignment: Alignment.center,
                   height: 50.0,
                   width: size.width * 0.5,
-                  decoration: new BoxDecoration(
-                      borderRadius: BorderRadius.circular(80.0),
-                      gradient: new LinearGradient(colors: [
-                        Color.fromARGB(255, 255, 136, 34),
-                        Color.fromARGB(255, 255, 177, 41)
-                      ])),
                   padding: const EdgeInsets.all(0),
                   child: Text(
                     "LOGIN",
@@ -175,7 +170,7 @@ class LoginScreenState extends State<LoginScreen> {
                   style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF2661FA)),
+                      color: Color(0xffFD8B8B)),
                 ),
               ),
             )
