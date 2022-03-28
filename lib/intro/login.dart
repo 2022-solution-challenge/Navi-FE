@@ -2,8 +2,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-// import 'dart:convert' show jsonDecode;
-// import 'package:flutter/foundation.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'register.dart';
@@ -19,6 +18,8 @@ class LoginScreen extends StatefulWidget{
 }
 
 class LoginScreenState extends State<LoginScreen> {
+
+  final LocalStorage storage = new LocalStorage('local_key');
 
   late FToast fToast;
 
@@ -66,7 +67,9 @@ class LoginScreenState extends State<LoginScreen> {
     );
     debugPrint(response.statusCode.toString());
     if(response.statusCode == 200){
-      debugPrint(response.body.toString());
+      var list = jsonDecode(response.body);
+      String token = list['access_token'];
+      storage.setItem('token', token);
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => MainApp()));
       return;
