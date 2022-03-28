@@ -15,27 +15,14 @@ Marker addedMarker(cordinate, id, key, icon, index, myData) {
           barrierColor: Colors.white.withOpacity(0),
           builder: (BuildContext context) {
             return Container(
-              height: 200,
-              color: Color.fromARGB(255, 255, 255, 255),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Text("${myData.id} 아이디 입니다"),
-                    Text("${myData.index} 인덱스 입니다"),
-                    LikeBtn(myData),
-                  ],
-                ),
-              ),
-            );
+              height : 200,
+              child: getBottomSheet(myData));
           });
     },
   );
 }
 
 class LikeBtn extends StatelessWidget {
-
   BookMark myLike;
   LikeBtn(this.myLike);
 
@@ -49,7 +36,7 @@ class LikeBtn extends StatelessWidget {
     myLike.likeNum =
         myLike.isCheckedLike ? myLike.likeNum + 1 : myLike.likeNum - 1;
 
-    //데이터 쏴주기!! 
+    //데이터 쏴주기!!
     return !isLiked;
   }
 
@@ -59,7 +46,7 @@ class LikeBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     like = myLike.isCheckedLike;
     return Container(
-      height: 60,
+      height: 40,
       color: Color.fromARGB(255, 255, 255, 255),
       child: Center(
         child: Row(
@@ -67,16 +54,16 @@ class LikeBtn extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             LikeButton(
-              size: 50,
+              size: 30,
               likeCountPadding: const EdgeInsets.all(10.0),
               likeCount: myLike.likeNum,
-              isLiked:myLike.isCheckedLike,
+              isLiked: myLike.isCheckedLike,
               onTap: onLikeButtonTapped,
               likeBuilder: (like) {
                 return Icon(
                   Icons.flag,
                   color: like ? Colors.red : Colors.grey,
-                  size: 50,
+                  size: 30,
                 );
               },
             ),
@@ -85,4 +72,72 @@ class LikeBtn extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget getBottomSheet(BookMark myData) {
+  String lat = myData.position.latitude.toString();
+  String lng = myData.position.longitude.toString();
+
+  return Stack(
+    children: <Widget>[
+      Container(
+        margin: EdgeInsets.only(top: 32),
+        child: Column(
+          children: <Widget>[
+            Container(
+              color: Color.fromARGB(179, 255, 92, 92),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Hytech City Public School",
+                      style: TextStyle(color: Colors.white, fontSize: 14),
+                    ),
+                    Text("Memorial Park",
+                        style: TextStyle(color: Colors.white, fontSize: 14)),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.map,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text("$lat, $lng",
+                      style: TextStyle(color: Colors.white, fontSize: 14))
+                    ],
+                  ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            LikeBtn(myData)
+  
+          ],
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Align(
+          alignment: Alignment.topRight,
+          child: FloatingActionButton(
+            backgroundColor: Color.fromARGB(179, 255, 92, 92),
+              child: Icon(Icons.navigation,), onPressed: () {}),
+        ),
+      )
+    ],
+  );
 }

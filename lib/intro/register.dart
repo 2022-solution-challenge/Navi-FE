@@ -18,7 +18,7 @@ class RegisterScreen extends StatelessWidget {
                 "REGISTER",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF2661FA),
+                  color: Color(0xffFD8B8B),
                   fontSize: 36
                 ),
                 textAlign: TextAlign.left,
@@ -82,6 +82,7 @@ class RegisterScreen extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {},
                 style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Color(0xffFD8B8B)),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(80.0),
@@ -93,15 +94,6 @@ class RegisterScreen extends StatelessWidget {
                   alignment: Alignment.center,
                   height: 50.0,
                   width: size.width * 0.5,
-                  decoration: new BoxDecoration(
-                    borderRadius: BorderRadius.circular(80.0),
-                    gradient: new LinearGradient(
-                      colors: [
-                        Color.fromARGB(255, 255, 136, 34),
-                        Color.fromARGB(255, 255, 177, 41)
-                      ]
-                    )
-                  ),
                   padding: const EdgeInsets.all(0),
                   child: Text(
                     "SIGN UP",
@@ -126,7 +118,7 @@ class RegisterScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF2661FA)
+                    color: Color(0xffFD8B8B)
                   ),
                 ),
               ),

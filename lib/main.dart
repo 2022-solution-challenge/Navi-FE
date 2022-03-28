@@ -52,9 +52,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(),
+    MapApp(),
     UserPage(),
-    NaviApp(),
-    MapSample(),
   ];
 
   void _onItemTapped(int index) {
@@ -68,37 +67,39 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     var size = MediaQuery.of(context)
         .size; //this gonna give us total height and with of our device
 
-    AppBar buildAppBar() {
-      return AppBar(
-        backgroundColor: Color.fromARGB(255, 255, 155, 155),
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.backspace),
-          onPressed: () {},
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: Icon(Icons.home),
-            onPressed: () {},
-          ),
-          SizedBox(width: 20.0 / 2)
-        ],
-      );
-    }
+    // AppBar buildAppBar() {
+    //   return AppBar(
+    //     backgroundColor: Color.fromARGB(255, 255, 155, 155),
+    //     elevation: 0,
+    //     leading: IconButton(
+    //       icon: Icon(Icons.backspace),
+    //       onPressed: () {},
+    //     ),
+    //     actions: <Widget>[
+    //       IconButton(
+    //         icon: Icon(Icons.search),
+    //         onPressed: () {},
+    //       ),
+    //       IconButton(
+    //         icon: Icon(Icons.home),
+    //         onPressed: () {},
+    //       ),
+    //       SizedBox(width: 20.0 / 2)
+    //     ],
+    //   );
+    // }
 
     return Scaffold(
-      appBar: buildAppBar(),
+      // appBar: buildAppBar(),
       body: Stack(children: <Widget>[
         Container(
+          height: size.height,
+          color: Color.fromARGB(255, 247, 247, 247)
           // Here the height of the container is 45% of our total height
-          height: size.height * .20,
-          decoration: BoxDecoration(
-            color: Color(0xFFF5CEB8),
-          ),
+          // height: size.height * .20,
+          // decoration: BoxDecoration(
+          //   color: Color(0xFFF5CEB8),
+          // ),
         ),
         SafeArea(
             child: Padding(
@@ -108,23 +109,20 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 )))
       ]),
       bottomNavigationBar: BottomNavigationBar(
+        unselectedItemColor: Color.fromARGB(255, 223, 223, 223),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.map_rounded),
+            label: 'maps',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
             label: 'User',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: 'navi',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map_rounded),
-            label: 'maps',
-          )
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Color.fromARGB(255, 255, 128, 122),
