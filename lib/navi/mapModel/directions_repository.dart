@@ -28,13 +28,13 @@ class DirectionRepository{
 
     if(response.statusCode == 200){
       if(Directions.fromMap(response.data) == null) {
-        throw new Exception('Error');
+        throw Exception('Error');
       }
       return Directions.fromMap(response.data);
       
       // return Directions.fromMap(response.data);
     }else{
-      throw new Exception('response error');
+      throw Exception('response error');
     }
   }
 }

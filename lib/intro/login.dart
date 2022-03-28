@@ -56,8 +56,6 @@ class LoginScreenState extends State<LoginScreen> {
 
     String url = "https://solution-challenge-hb6fjqbi3q-du.a.run.app/users/login";
 
-
-
     http.Response response = await http.post(
       Uri.parse(url),
       headers: <String,String>{
