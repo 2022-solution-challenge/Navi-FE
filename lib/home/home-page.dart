@@ -4,6 +4,7 @@ import 'items.dart';
 import 'record-holder.dart';
 import 'record.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_test_app/connect/connectMain.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -19,42 +20,55 @@ class HomePage extends StatelessWidget {
   }
 }
 
-Widget _signUpParents() {
-  return Container(
-      height: 100,
-      width: 344,
-      margin: EdgeInsets.only(right: 10, left: 10, top: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(28),
-        color: Color.fromARGB(179, 255, 92, 92),
-      ),
-      child: Stack(children: <Widget>[
-        Positioned(
-          left: 29,
-          top: 60,
-          child: Text(
-            "Connect with parents",
-            style: GoogleFonts.inter(
-                fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white),
+class _signUpParents extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context){
+    return GestureDetector(
+      onTap: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ConnectContainer())
+        );
+      },
+      child: Container(
+          height: 100,
+          width: 344,
+          margin: const EdgeInsets.only(right: 10, left: 10, top: 10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(28),
+            color: const Color.fromARGB(179, 255, 92, 92),
           ),
-        ),
-        const Positioned(
-          right: 21,
-          top: 20,
-          child: Icon(Icons.arrow_right, color: Colors.white70, size: 27),
-        ),
-        Positioned(
-          left: 29,
-          top: 20,
-          child: Text(
-            '카드를 눌러 부모님과 연동할 수 있어요',
-            style: GoogleFonts.inter(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                color: Colors.white70),
-          ),
-        ),
-      ]));
+          child: Stack(children: <Widget>[
+            Positioned(
+              left: 29,
+              top: 60,
+              child: Text(
+                "Connect with parents",
+                style: GoogleFonts.inter(
+                    fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white),
+              ),
+            ),
+            const Positioned(
+              right: 21,
+              top: 20,
+              child: Icon(Icons.arrow_right, color: Colors.white70, size: 27),
+            ),
+            Positioned(
+              left: 29,
+              top: 20,
+              child: Text(
+                '카드를 눌러 부모님과 연동할 수 있어요',
+                style: GoogleFonts.inter(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white70),
+              ),
+            ),
+          ])),
+    );
+  }
+
 }
 
 Widget _myRecords() {
