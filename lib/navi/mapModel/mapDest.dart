@@ -118,7 +118,6 @@ class _MapScreenState extends State<MapScreen> {
                   target: LatLng(
                       _origin.position.latitude,
                       _origin.position.longitude
-
                   ), zoom: 14.5, tilt: 50.0);
               _setCamera(newPosition);
             },

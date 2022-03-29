@@ -12,7 +12,6 @@ class PrimitiveWrapper {
 
 Marker currentMarker(
     cordinate, id, context, _customInfoWindowController, mymarkers, key, icon) {
-  BitmapDescriptor currentIcon = icon[0];
 
   final selectedIndex = new PrimitiveWrapper(0);
 
@@ -25,7 +24,6 @@ Marker currentMarker(
   return Marker(
     position: cordinate,
     markerId: MarkerId(id.toString()),
-    icon: currentIcon,
     onTap: () {
       _customInfoWindowController.addInfoWindow!(
         Column(
