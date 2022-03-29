@@ -8,7 +8,6 @@ import 'package:maps_toolkit/maps_toolkit.dart' as mp;
 import 'directions_model.dart';
 
 class NaviMainApp extends StatelessWidget {
-
   const NaviMainApp({Key? key, required this.DestLocation}) : super(key: key);
   final LatLng DestLocation;
 
@@ -20,13 +19,14 @@ class NaviMainApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MapScreen(destLocation: this.DestLocation,),
+      home: MapScreen(
+        destLocation: this.DestLocation,
+      ),
     );
   }
 }
 
 class MapScreen extends StatefulWidget {
-
   final LatLng destLocation;
   const MapScreen({Key? key, required this.destLocation}) : super(key: key);
 
@@ -43,20 +43,14 @@ class _MapScreenState extends State<MapScreen> {
   Set<Marker> markerList = new Set();
   Directions? _info = null;
 
-
-
   @override
   void initState() {
-
     //마커 제작 및 추가
     _origin = Marker(
       markerId: const MarkerId('origin'),
       infoWindow: const InfoWindow(title: 'Origin'),
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-      position: const LatLng(
-          37.87189568090562,
-          -122.25841638772661
-      ),
+      position: const LatLng(37.87189568090562, -122.25841638772661),
     );
     _destination = Marker(
       markerId: const MarkerId('destination'),
@@ -67,39 +61,36 @@ class _MapScreenState extends State<MapScreen> {
     markerList.add(_origin);
     markerList.add(_destination);
 
-
     // 길찾는 부분
-    DirectionRepository().getDirections(
-        origin: _origin.position, destination: _destination.position
-    ).then((value) => {
-      _info = value,
-      if(_info != null)
-        pathPointList = _info!.polylinePoints
-          .map((e) => mp.LatLng(e.latitude, e.longitude))
-          .toList(),
-
-
-        filterMarker(),
-    });
+    DirectionRepository()
+        .getDirections(
+            origin: _origin.position, destination: _destination.position)
+        .then((value) => {
+              _info = value,
+              if (_info != null)
+                pathPointList = _info!.polylinePoints
+                    .map((e) => mp.LatLng(e.latitude, e.longitude))
+                    .toList(),
+              filterMarker(),
+            });
 
     _initialCameraPosition = CameraPosition(
       target: LatLng(
-          (_origin.position.latitude + _destination.position.latitude)/2,
-          (_origin.position.longitude + _destination.position.longitude)/2
-      ),
+          (_origin.position.latitude + _destination.position.latitude) / 2,
+          (_origin.position.longitude + _destination.position.longitude) / 2),
       zoom: 10.5,
     );
 
-
     setInitAccidentMarker();
   }
-
 
   Set<Marker> accidentMarkerList = Set();
   Set<Circle> accidentCircleList = Set();
 
   Set<Marker> nearMarkerList = Set();
   Set<Circle> nearCircleList = Set();
+
+  List<Marker> _markers = []; //for moving marker
 
   int totalNum = 0;
 
@@ -116,9 +107,9 @@ class _MapScreenState extends State<MapScreen> {
             onPressed: () {
               CameraPosition newPosition = new CameraPosition(
                   target: LatLng(
-                      _origin.position.latitude,
-                      _origin.position.longitude
-                  ), zoom: 14.5, tilt: 50.0);
+                      _origin.position.latitude, _origin.position.longitude),
+                  zoom: 14.5,
+                  tilt: 50.0);
               _setCamera(newPosition);
             },
             style: TextButton.styleFrom(
@@ -130,11 +121,10 @@ class _MapScreenState extends State<MapScreen> {
           TextButton(
             onPressed: () {
               CameraPosition newPosition = new CameraPosition(
-                  target: LatLng(
-                      _destination.position.latitude,
-                      _destination.position.longitude
-
-                  ), zoom: 14.5, tilt: 50.0);
+                  target: LatLng(_destination.position.latitude,
+                      _destination.position.longitude),
+                  zoom: 14.5,
+                  tilt: 50.0);
               _setCamera(newPosition);
             },
             style: TextButton.styleFrom(
@@ -152,7 +142,7 @@ class _MapScreenState extends State<MapScreen> {
         onMapCreated: (GoogleMapController controller) {
           _googleMapController.complete(controller);
         },
-        markers: nearMarkerList.union(markerList),
+        markers: nearMarkerList.union(markerList).union(_markers.toSet()),
         circles: accidentCircleList,
         polylines: {
           if (_info != null)
@@ -173,13 +163,13 @@ class _MapScreenState extends State<MapScreen> {
             _info != null
                 ? _setBounds(_info)
                 : _setCamera(_initialCameraPosition);
+            showMoving();
           },
           child: Text(totalNum.toString())
           //const Icon(Icons.center_focus_strong_outlined),
           ),
     );
   }
-
 
   bool isMarkerNearPath(Marker marker) {
     //LatLng이 정의된 게 달라서 몹시 번거롭다..
@@ -195,14 +185,6 @@ class _MapScreenState extends State<MapScreen> {
     //marker filtering with condition
     List<Marker> _items = temp.where((i) => isMarkerNearPath(i)).toList();
 
-    // .map((Marker _items) => (isMarkerNearPath(_items)
-    //     ? _items
-    //     : const Marker(
-    //         markerId: MarkerId('0'),
-    //         position: LatLng(0, 0),
-    //         visible: false))) //개선사항 : 현재 가까이 있지 않을때(isMarkerNearPath가 false일때) null을 넣으면 뻑나서 비어 있는 마커를 넣었다. 근데 안 넣는 방법은 없을까?
-    // .toList();
-
     setState(() {
       nearMarkerList.clear();
       nearMarkerList.addAll(_items.toSet());
@@ -210,7 +192,6 @@ class _MapScreenState extends State<MapScreen> {
       totalNum = nearMarkerList.length;
     });
   }
-
 
   Future<void> _setCamera(CameraPosition cp) async {
     final GoogleMapController controller = await _googleMapController.future;
@@ -226,8 +207,29 @@ class _MapScreenState extends State<MapScreen> {
         .animateCamera(CameraUpdate.newLatLngBounds(directions.bounds, 100.0));
   }
 
-  void setInitAccidentMarker() async {
+  void showMoving() async {
+    List<LatLng> testList = [
+      LatLng(37.87189568090562, -122.25841638772661),
+      LatLng(37.872, -122.259),
+      LatLng(37.873, -122.261)
+    ];
+    for (final position in testList) {
+      setState(() {
+        if (_markers != []) {
+          _markers.removeWhere((m) => m.markerId.value == "sourcePin");
+        }
 
+        _markers.add(Marker(
+          markerId: MarkerId("sourcePin"),
+          position: position, // updated position
+        ));
+      });
+
+      await Future.delayed(Duration(seconds: 5));
+    }
+  }
+
+  void setInitAccidentMarker() async {
     List<Marker> _accidentMarkerList = [];
     List<Circle> _accidentCircleList = [];
 
