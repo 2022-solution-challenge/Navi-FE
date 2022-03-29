@@ -89,24 +89,14 @@ class ConnectContainerState extends State<ConnectContainer>{
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.fromLTRB(5.0, 30.0, 5.0, 20.0),
+          padding: EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 20.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+           crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(
-                height: 20.0,
-              ),
-              Text(
-                "Find your child",
-                style: GoogleFonts.inter(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black54,
-                ),
-              ),
+              _connectDescription(),
               Row(
-                  // crossAxisAlignment: CrossAxisAlignment.stretch,
+                // crossAxisAlignment: CrossAxisAlignment.stretch,
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
@@ -114,6 +104,8 @@ class ConnectContainerState extends State<ConnectContainer>{
                     child: TextField(
                       controller: textController,
                       decoration: const InputDecoration(
+                      fillColor: Colors.white,
+                      hoverColor: Color(0xffFD8B8B),
                       labelText: "make your room"
                       ),
                     ),
@@ -121,7 +113,8 @@ class ConnectContainerState extends State<ConnectContainer>{
                   Expanded(
                     flex: 3,
                     child: OutlinedButton(
-                      child: Text("Make"),
+                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Color(0xffFD8B8B))),
+                      child: Text("Make", style: TextStyle(color:Colors.white)),
                       onPressed: (){
                         if(textController.text != ""){
                           makeRoom(textController.text);
@@ -131,6 +124,14 @@ class ConnectContainerState extends State<ConnectContainer>{
                   ),
                 ],
               ),
+             SizedBox(height: 40,),
+             Center(child: Text(
+          'Room List',
+          style: GoogleFonts.inter(
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+          ),
+        ),),
               ConnectMain(roomList: roomList)
             ],
           ),
@@ -221,4 +222,30 @@ class ConnectMainState extends State<ConnectMain>{
       );
     }
   }
+}
+
+
+Widget _connectDescription() {
+  return Padding(
+    padding: EdgeInsets.only(left: 16, bottom: 16, top: 60),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'find your',
+          style: GoogleFonts.inter(
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        Text(
+          'Child',
+          style: GoogleFonts.inter(
+            fontSize: 30,
+            fontWeight: FontWeight.w700,
+          ),
+        )
+      ],
+    ),
+  );
 }
