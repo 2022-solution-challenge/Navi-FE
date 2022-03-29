@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
+import 'package:localstorage/localstorage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -10,8 +11,8 @@ import 'parseHtml.dart';
 import 'connectMap.dart';
 
 class ConnectContainer extends StatefulWidget{
-
-  const ConnectContainer({Key? key}) : super(key: key);
+  late String auth;
+  ConnectContainer({Key? key, required this.auth}) : super(key: key);
 
   @override
   State<ConnectContainer> createState() => ConnectContainerState();
@@ -23,24 +24,24 @@ class ConnectContainerState extends State<ConnectContainer>{
   final textController = TextEditingController();
 
   makeRoom(String roomName) async {
-    String url = "https://solution-challenge-hb6fjqbi3q-du.a.run.app/chat/rooms";
+    String url = "https://solution-challenge-hb6fjqbi3q-du.a.run.app/chat/rooms?name=";
 
-
-    debugPrint(roomName);
-    var param = <String, String>{
-      "name" : roomName
+    var headers =<String,String>{
+      HttpHeaders.authorizationHeader : widget.auth,
+      // 'Content-Type' : 'text/html'
     };
+
+    url = url + roomName.toString();
+
     http.Response response = await http.post(
       Uri.parse(url),
-      headers: <String,String>{
-        'Content-Type' : 'application/json',
-
-        },
-      body: jsonEncode(param)
+      headers: headers,
+      // body: param
     );
     debugPrint(response.statusCode.toString());
-    if (response.statusCode == 200){
+    if (response.statusCode < 400){
       debugPrint("make room");
+      debugPrint(response.headers.toString());
       showToast("you were added");
       setState(() {
         getRoom()
@@ -51,7 +52,7 @@ class ConnectContainerState extends State<ConnectContainer>{
         );
       });
     }
-    if (response.statusCode != 200){
+    if (response.statusCode >= 400){
       showToast("There was an error");
     }
   }

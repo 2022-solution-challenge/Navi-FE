@@ -54,6 +54,7 @@ dependencies:
   material_floating_search_bar: ^0.3.7
   localstorage: ^4.0.0+1
   html: ^0.15.0
+  stomp_dart_client: ^0.4.4
 
 dev_dependencies:
   flutter_test:

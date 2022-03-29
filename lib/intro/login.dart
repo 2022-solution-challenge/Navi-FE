@@ -19,6 +19,7 @@ class LoginScreen extends StatefulWidget{
 
 class LoginScreenState extends State<LoginScreen> {
 
+  late String auth;
   final LocalStorage storage = new LocalStorage('local_key');
 
   late FToast fToast;
@@ -68,8 +69,9 @@ class LoginScreenState extends State<LoginScreen> {
       var list = jsonDecode(response.body);
       String token = list['access_token'];
       storage.setItem('token', token);
+      auth = token.toString();
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => MainApp()));
+          MaterialPageRoute(builder: (context) => MainApp(auth : auth)));
       return;
     }
     showToast("please check your name and password");

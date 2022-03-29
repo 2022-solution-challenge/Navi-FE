@@ -41,13 +41,14 @@ class UserPage extends StatelessWidget {
 
 class MainApp extends StatelessWidget{
 
-  const MainApp({Key? key}) : super(key: key);
+  late String auth;
+  MainApp({Key? key, required this.auth}) : super(key: key);
 
   @override
   Widget build(BuildContext context){
     return Scaffold(
       body: WillPopScope(
-        child: MyStatefulWidget(),
+        child: MyStatefulWidget(auth : auth),
         onWillPop: () {
           return Future(() => false);
         },
@@ -57,7 +58,8 @@ class MainApp extends StatelessWidget{
 }
 
 class MyStatefulWidget extends StatefulWidget {
-  const MyStatefulWidget({Key? key}) : super(key: key);
+  late String auth;
+  MyStatefulWidget({Key? key, required this.auth}) : super(key: key);
 
   @override
   State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
@@ -67,12 +69,22 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomePage(),
-    MapApp(),
-    UserPage(),
-  ];
+  late String nowAuth;
+  late List<Widget> _widgetOptions;
+  @override
+  void initState(){
+    nowAuth =  widget.auth;
+    _widgetOptions = <Widget>[
+      HomePage(auth: nowAuth),
+      MapApp(),
+      UserPage(),
+    ];
+  }
+  // final List<Widget> _widgetOptions = <Widget>[
+  //   HomePage(auth: nowAuth),
+  //   MapApp(),
+  //   UserPage(),
+  // ];
 
   void _onItemTapped(int index) {
     setState(() {

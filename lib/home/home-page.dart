@@ -7,13 +7,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_test_app/connect/connectMain.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+
+  HomePage({Key? key, required this.auth}) : super(key: key);
+  late String auth;
 
   @override
   Widget build(BuildContext context) {
     return ListView(physics: const ClampingScrollPhysics(), children: <Widget>[
       _description(),
-      _signUpParents(),
+      _signUpParents(auth: this.auth),
       _whereToGo(),
       _myRecords(),
     ]);
@@ -22,13 +24,18 @@ class HomePage extends StatelessWidget {
 
 class _signUpParents extends StatelessWidget {
 
+  late String auth;
+  _signUpParents({Key? key, required this.auth}): super(key: key);
+
   @override
   Widget build(BuildContext context){
     return GestureDetector(
       onTap: (){
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ConnectContainer())
+          MaterialPageRoute(builder: (context) => ConnectContainer(
+            auth: this.auth
+          ))
         );
       },
       child: Container(
