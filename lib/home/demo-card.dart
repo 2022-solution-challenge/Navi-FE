@@ -37,7 +37,7 @@ class DemoCard extends StatelessWidget {
         ),
         child: RawMaterialButton(
           onPressed: () {
-            if (item.name == "추가") {
+            if (item.name == "add") {
               Navigator.push(
                 context,
                 MaterialPageRoute(
