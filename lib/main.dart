@@ -7,7 +7,7 @@ import 'intro/login.dart';
 import 'dart:developer';
 
 //main 함수에 env파일 추가
-void main() async{
+void main() async {
   await dotenv.load(fileName: '.env');
   runApp(const MyApp());
 }

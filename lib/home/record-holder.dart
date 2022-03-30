@@ -41,7 +41,7 @@ class MyRecord extends StatelessWidget {
                               decoration: BoxDecoration(
                                color: Color.fromARGB(179, 255, 92, 92),
                                borderRadius: BorderRadius.circular(15)),
-                              child: Text('안심 귀가 완료', textAlign: TextAlign.center, style: GoogleFonts.inter(color:Colors.white)),
+                              child: Text('Went Home', textAlign: TextAlign.center, style: GoogleFonts.inter(color:Colors.white)),
                               
                               ),
                           ),

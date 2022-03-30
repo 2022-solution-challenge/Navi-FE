@@ -65,10 +65,10 @@ class _signUpParents extends StatelessWidget {
               left: 29,
               top: 20,
               child: Text(
-                '카드를 눌러 부모님과 연동할 수 있어요',
+                'To connect with parents, press the card',
                 style: GoogleFonts.inter(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
                     color: Colors.white70),
               ),
             ),
@@ -123,7 +123,7 @@ Widget _whereToGo() {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(
-            '길 찾아가기',
+            'Get Directions',
             style: GoogleFonts.inter(
                 fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),
           ),
