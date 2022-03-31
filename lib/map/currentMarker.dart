@@ -12,7 +12,6 @@ class PrimitiveWrapper {
 
 Marker currentMarker(
     cordinate, id, context, _customInfoWindowController, mymarkers, key, icon) {
-  BitmapDescriptor currentIcon = icon[0];
 
   final selectedIndex = new PrimitiveWrapper(0);
 
@@ -25,7 +24,6 @@ Marker currentMarker(
   return Marker(
     position: cordinate,
     markerId: MarkerId(id.toString()),
-    icon: currentIcon,
     onTap: () {
       _customInfoWindowController.addInfoWindow!(
         Column(
@@ -146,7 +144,7 @@ class SelectButton extends StatefulWidget {
 }
 
 class _SelectButtonState extends State<SelectButton> {
-  List<MyButtonModal> _a = List.generate(5,
+  List<MyButtonModal> _a = List.generate(4,
       (index) => MyButtonModal(buttonText: "Btn ${index + 1}", index: index));
 
   @override

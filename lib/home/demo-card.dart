@@ -42,7 +42,10 @@ class DemoCard extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (context) => Scaffold(
-                      body: NaviApp())),
+                      body: 
+                      NaviApp()
+                      
+                      )),
               );
             } else {
               Navigator.push(

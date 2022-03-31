@@ -5,18 +5,17 @@ import 'bookMark.dart';
 import 'map.dart';
 
 Marker addedMarker(cordinate, id, key, icon, index, myData) {
+
   return Marker(
     position: cordinate,
     markerId: MarkerId(id.toString()),
-    icon: (icon[1]),
+    icon: (icon[index]),
     onTap: () {
       showModalBottomSheet<void>(
           context: key.currentContext,
           barrierColor: Colors.white.withOpacity(0),
           builder: (BuildContext context) {
-            return Container(
-              height : 200,
-              child: getBottomSheet(myData));
+            return Container(height: 200, child: getBottomSheet(myData, icon[index]));
           });
     },
   );
@@ -74,7 +73,7 @@ class LikeBtn extends StatelessWidget {
   }
 }
 
-Widget getBottomSheet(BookMark myData) {
+Widget getBottomSheet(BookMark myData, BitmapDescriptor currentIcon) {
   String lat = myData.position.latitude.toString();
   String lng = myData.position.longitude.toString();
 
@@ -101,22 +100,21 @@ Widget getBottomSheet(BookMark myData) {
                       height: 5,
                     ),
                     Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.map,
-                        color: Colors.white,
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text("$lat, $lng",
-                      style: TextStyle(color: Colors.white, fontSize: 14))
-                    ],
-                  ),
+                      children: <Widget>[
+                        Icon(
+                          Icons.map,
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Text("${double.parse(lat).toStringAsFixed(3)}, ${double.parse(lng).toStringAsFixed(3)}",
+                            style: TextStyle(color: Colors.white, fontSize: 14))
+                      ],
+                    ),
                     SizedBox(
                       height: 5,
                     ),
-                    
                   ],
                 ),
               ),
@@ -125,7 +123,6 @@ Widget getBottomSheet(BookMark myData) {
               height: 10,
             ),
             LikeBtn(myData)
-  
           ],
         ),
       ),
@@ -134,8 +131,11 @@ Widget getBottomSheet(BookMark myData) {
         child: Align(
           alignment: Alignment.topRight,
           child: FloatingActionButton(
-            backgroundColor: Color.fromARGB(179, 255, 92, 92),
-              child: Icon(Icons.navigation,), onPressed: () {}),
+              backgroundColor: Color.fromARGB(179, 255, 92, 92),
+              child: Icon(
+                Icons.navigation,
+              ),
+              onPressed: () {}),
         ),
       )
     ],

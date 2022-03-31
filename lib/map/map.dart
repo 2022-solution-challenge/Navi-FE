@@ -90,8 +90,10 @@ class MapSampleState extends State<MapSample> {
   late Uint8List markerIcon;
   List<BitmapDescriptor> markerIcons = [];
   List<String> paths = [
-    'assets/img/star.png',
-    'assets/img/heart.png'
+    'assets/img/icon1.png',
+    'assets/img/icon2.png',
+    'assets/img/icon3.png',
+    'assets/img/icon4.png'
   ]; //이미지 path 지정, 하드코딩 해야할듯
 
   @override

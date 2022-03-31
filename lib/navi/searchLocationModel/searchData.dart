@@ -8,8 +8,6 @@ class SearchResult extends StatefulWidget{
   SearchResult({Key? key, required this.searchData, required this.isLoaded}) : super(key: key);
   bool isLoaded;
   SearchData? searchData;
-
-
   @override
   State<SearchResult> createState() => SearchResultState();
 }
@@ -68,7 +66,7 @@ class SearchResultState extends State<SearchResult>{
             )
           ],
         ),
-      )) : Center(child: Text("어디로 가시겠어요?")),
+      )) : Center(child: Text("Where do you want to go?")),
 
     );
     
