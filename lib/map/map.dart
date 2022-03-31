@@ -61,12 +61,6 @@ class PrimitiveWrapper {
 }
 
 class MapSampleState extends State<MapSample> {
-  // Future<Position> getLocation() async{
-  //   Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-  //   return position;
-  // }
-
-  // Future<Position> position = getLocation();
 
   CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
@@ -80,6 +74,8 @@ class MapSampleState extends State<MapSample> {
   }
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  late Marker _origin;
 
   // 지도 클릭 시 표시할 장소에 대한 마커 목록
   final markers = new PrimitiveWrapper(
@@ -96,9 +92,16 @@ class MapSampleState extends State<MapSample> {
     'assets/img/icon4.png'
   ]; //이미지 path 지정, 하드코딩 해야할듯
 
+
+
   @override
   void initState() {
     super.initState();
+
+    _origin = Marker(
+      markerId: const MarkerId('origin'),
+      position: const LatLng(37.87189568090562, -122.25841638772661),
+    );
 
     //build 되기 전에 데이터 옮겨오기
     WidgetsBinding.instance?.addPostFrameCallback((_) {
@@ -198,7 +201,7 @@ class MapSampleState extends State<MapSample> {
               },
               markers: (mymarkers.markerlist + markers.markerlist).toSet(),
               initialCameraPosition: CameraPosition(
-                target: LatLng(37.5, 126.9294254 // 시작 위치
+                target: LatLng(_origin.position.latitude, _origin.position.longitude // 시작 위치
                     ),
                 zoom: 18,
               ),
@@ -243,3 +246,4 @@ Widget _bookmarkDescription() {
     ),
   );
 }
+
