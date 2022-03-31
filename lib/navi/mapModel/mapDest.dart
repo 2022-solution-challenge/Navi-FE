@@ -211,7 +211,11 @@ class _MapScreenState extends State<MapScreen> {
     List<LatLng> testList = [
       LatLng(37.87189568090562, -122.25841638772661),
       LatLng(37.872, -122.259),
-      LatLng(37.873, -122.261)
+      LatLng(37.873, -122.261),
+      LatLng(37.873, -122.263),
+      LatLng(37.873, -122.265),
+      LatLng(37.873, -122.267),
+      LatLng(37.873, -122.269),
     ];
     for (final position in testList) {
       setState(() {
@@ -222,10 +226,11 @@ class _MapScreenState extends State<MapScreen> {
         _markers.add(Marker(
           markerId: MarkerId("sourcePin"),
           position: position, // updated position
+          
         ));
       });
 
-      await Future.delayed(Duration(seconds: 5));
+      await Future.delayed(Duration(seconds: 3));
     }
   }
 
