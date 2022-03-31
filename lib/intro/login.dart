@@ -12,7 +12,6 @@ import 'package:flutter_test_app/main.dart';
 
 class LoginScreen extends StatefulWidget{
 
-
   @override
   State<LoginScreen> createState() => LoginScreenState();
 }
@@ -158,15 +157,8 @@ class LoginScreenState extends State<LoginScreen> {
                   alignment: Alignment.center,
                   height: 50.0,
                   width: size.width * 0.5,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(80.0),
-                      gradient: const LinearGradient(colors: [
-                        Color.fromARGB(255, 255, 136, 34),
-                        Color.fromARGB(255, 255, 177, 41)
-                      ])),
-
                   padding: const EdgeInsets.all(0),
-                  child: const Text(
+                  child: Text(
                     "LOGIN",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontWeight: FontWeight.bold),
@@ -197,3 +189,4 @@ class LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+
