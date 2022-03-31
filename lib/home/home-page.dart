@@ -135,7 +135,9 @@ Widget _whereToGo() {
         child: ListView(
             padding: EdgeInsets.only(left: 5, bottom: 10, top: 10, right: 5),
             scrollDirection: Axis.horizontal,
-            children: _cards)),
+            children: _cards
+        )
+    ),
   ]));
 }
 
