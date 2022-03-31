@@ -37,7 +37,7 @@ class DemoCard extends StatelessWidget {
         ),
         child: RawMaterialButton(
           onPressed: () {
-            if (item.name == "add") {
+            if (item.name == "Add") {
               Navigator.push(
                 context,
                 MaterialPageRoute(

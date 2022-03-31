@@ -132,21 +132,16 @@ class MapSampleState extends State<MapSample> {
     await Future.delayed(Duration(milliseconds: index*50)); //give delay to load the data...
     markerIcon = await getBytesFromAsset(paths[index], 130);
     markerIcons.add(BitmapDescriptor.fromBytes(markerIcon));
-
-    debugPrint('==========end convert ${index}============');
   }
 
   void setInitMarker() async {
     await setIconImg();
-
-    debugPrint('mapping data ===================');
     await Future.delayed(Duration(milliseconds: 100));
     List<Marker> _items = await items
         .map((BookMark _items) => addedMarker(
             _items.position, 0, _scaffoldKey, markerIcons, _items.index, _items))
         .toList();
     mymarkers.markerlist.addAll(_items);
-    debugPrint('setinitmarker============');
     
     setState(() {});
     //setState를 사용해서 다시 빌드
@@ -176,8 +171,6 @@ class MapSampleState extends State<MapSample> {
   Widget build(BuildContext context) {
     // ignore: sized_box_for_whitespace
     final med = MediaQuery.of(context).size;
-
-    debugPrint('build ===================');
 
     return SizedBox(
       key : _scaffoldKey,
