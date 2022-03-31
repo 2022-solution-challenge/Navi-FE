@@ -61,12 +61,6 @@ class PrimitiveWrapper {
 }
 
 class MapSampleState extends State<MapSample> {
-  // Future<Position> getLocation() async{
-  //   Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-  //   return position;
-  // }
-
-  // Future<Position> position = getLocation();
 
   CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
@@ -80,6 +74,8 @@ class MapSampleState extends State<MapSample> {
   }
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  late Marker _origin;
 
   // 지도 클릭 시 표시할 장소에 대한 마커 목록
   final markers = new PrimitiveWrapper(
@@ -96,9 +92,16 @@ class MapSampleState extends State<MapSample> {
     'assets/img/icon4.png'
   ]; //이미지 path 지정, 하드코딩 해야할듯
 
+
+
   @override
   void initState() {
     super.initState();
+
+    _origin = Marker(
+      markerId: const MarkerId('origin'),
+      position: const LatLng(37.87189568090562, -122.25841638772661),
+    );
 
     //build 되기 전에 데이터 옮겨오기
     WidgetsBinding.instance?.addPostFrameCallback((_) {
@@ -134,21 +137,16 @@ class MapSampleState extends State<MapSample> {
     await Future.delayed(Duration(milliseconds: index*50)); //give delay to load the data...
     markerIcon = await getBytesFromAsset(paths[index], 130);
     markerIcons.add(BitmapDescriptor.fromBytes(markerIcon));
-
-    debugPrint('==========end convert ${index}============');
   }
 
   void setInitMarker() async {
     await setIconImg();
-
-    debugPrint('mapping data ===================');
     await Future.delayed(Duration(milliseconds: 100));
     List<Marker> _items = await items
         .map((BookMark _items) => addedMarker(
             _items.position, 0, _scaffoldKey, markerIcons, _items.index, _items))
         .toList();
     mymarkers.markerlist.addAll(_items);
-    debugPrint('setinitmarker============');
     
     setState(() {});
     //setState를 사용해서 다시 빌드
@@ -179,8 +177,6 @@ class MapSampleState extends State<MapSample> {
     // ignore: sized_box_for_whitespace
     final med = MediaQuery.of(context).size;
 
-    debugPrint('build ===================');
-
     return SizedBox(
       key : _scaffoldKey,
       width: MediaQuery.of(context).size.width,  // or use fixed size like 200
@@ -205,7 +201,7 @@ class MapSampleState extends State<MapSample> {
               },
               markers: (mymarkers.markerlist + markers.markerlist).toSet(),
               initialCameraPosition: CameraPosition(
-                target: LatLng(37.5, 126.9294254 // 시작 위치
+                target: LatLng(_origin.position.latitude, _origin.position.longitude // 시작 위치
                     ),
                 zoom: 18,
               ),
@@ -250,3 +246,4 @@ Widget _bookmarkDescription() {
     ),
   );
 }
+

@@ -65,7 +65,7 @@ Marker currentMarker(
                             mainAxisAlignment: MainAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              Text( '현재 선택한 마커',
+                              Text( 'Selected Marker',
                               style: GoogleFonts.inter(
                             fontSize: 18, fontWeight: FontWeight.w700, color: Color.fromARGB(255, 0, 0, 0)),),
                               selectbtn,
@@ -74,7 +74,7 @@ Marker currentMarker(
                                    primary: Color(0xffFD8B8B),
                                    minimumSize: const Size.fromHeight(50), // NEW
                                    ),
-                                child: Text( '북마크에 추가하기',
+                                child: Text( 'Add to Bookmark',
             style: GoogleFonts.inter(
                 fontSize: 14, fontWeight: FontWeight.w700, color: Color.fromARGB(255, 255, 255, 255)),
           ),
@@ -129,8 +129,9 @@ class MyButtonModal {
   final String buttonText;
   // New field to uniquely identify a button
   final int index;
+  final IconData icon;
 
-  MyButtonModal({this.buttonText = 'default', this.index = -1});
+  MyButtonModal({this.buttonText = 'default', this.index = -1, this.icon = Icons.navigation});
 }
 
 class SelectButton extends StatefulWidget {
@@ -143,15 +144,18 @@ class SelectButton extends StatefulWidget {
   _SelectButtonState createState() => _SelectButtonState();
 }
 
+List<String> _btnName = ['black spot',"illegal parking",'wide crosswalk', 'no light'];
+List<IconData> _btnIcons = [Icons.warning, Icons.car_repair, Icons.expand, Icons.traffic ];
 class _SelectButtonState extends State<SelectButton> {
-  List<MyButtonModal> _a = List.generate(4,
-      (index) => MyButtonModal(buttonText: "Btn ${index + 1}", index: index));
+  
+  final List<MyButtonModal> _a = List.generate(4,
+      (index) => MyButtonModal(buttonText: _btnName[index] , index: index, icon:_btnIcons[index]));
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 70,
-      margin: EdgeInsets.only(right: 20, left: 20, top: 10),
+      margin: EdgeInsets.only(right: 10, left: 10, top: 10),
       child: GridView.count(
         childAspectRatio: 1,
         crossAxisSpacing: 20,
@@ -166,10 +170,9 @@ class _SelectButtonState extends State<SelectButton> {
                     color:
                         f.index == widget._index ? Color(0xffFD8B8B) : Colors.white,
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Color.fromARGB(255, 255, 92, 92))),
-                child: Center(
-                  child: Text(f.buttonText),
-                )),
+                    border: Border.all(color: Color.fromARGB(255, 255, 92, 92))
+),
+                child: Icon( _btnIcons[f.index], size: 30,)),
             onTap: () {
               // When button is tapped update index to the index of the button
               setState(() {

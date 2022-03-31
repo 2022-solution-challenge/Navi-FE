@@ -28,17 +28,6 @@ class MyApp extends StatelessWidget {
 
 //MyStatefulWidget()
 
-class UserPage extends StatelessWidget {
-  const UserPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('This is a User Page'),
-    );
-  }
-}
-
 class MainApp extends StatelessWidget{
 
   late String auth;
@@ -77,7 +66,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     _widgetOptions = <Widget>[
       HomePage(auth: nowAuth),
       MapApp(),
-      UserPage(),
     ];
   }
   // final List<Widget> _widgetOptions = <Widget>[
@@ -148,11 +136,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           BottomNavigationBarItem(
             icon: Icon(Icons.map_rounded),
             label: 'maps',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'User',
-          ),
+          )
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Color.fromARGB(255, 255, 128, 122),
