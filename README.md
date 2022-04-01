@@ -51,7 +51,10 @@
 <img width="1920" alt="readme3" src="https://user-images.githubusercontent.com/80435616/161185260-c36a7d54-40c8-42a5-92aa-5e1db5a6f747.png">
 
     
-5. Demo Video
+5. Demo Video <br> 
+        [![Demo Video](http://img.youtube.com/vi/yBLTT8kiaTA/0.jpg)](https://www.youtube.com/watch?v=yBLTT8kiaTA) 
+        
+        
 6. Getting Started 
     1. Download Navi.apk via [link](https://drive.google.com/file/d/1UdEyV9IVIIPfSo4ZGRFxg46VksZaEzpx/view?usp=sharing)(for Andriod OS)
     2. Run App on Emulator(need .env and andriod/app/src/main/AndriodManifest file for API KEYs, you can get them from PDG-privates)
