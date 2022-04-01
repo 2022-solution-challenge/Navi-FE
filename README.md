@@ -71,4 +71,4 @@
 
 | Name | Choi Eungi(Back-End) | Kwon Hyojae(Front-End) | Bae Seolyeong(Front-End) |
 | --- | --- | --- | --- |
-| Contacts |  |  |  |
+| Contacts | [![Github](http://img.shields.io/badge/Github-fc3465?style=flat&logo=github&logoColor=white&link=https://github.com/ChoiEungi)](https://github.com/ChoiEungi)|[![Github](http://img.shields.io/badge/Github-fc3465?style=flat&logo=github&logoColor=white&link=https://github.com/hyojaeKwon)](https://github.com/hyojaeKwon)|[![Github](http://img.shields.io/badge/Github-fc3465?style=flat&logo=github&logoColor=white&link=https://github.com/pell13)](https://github.com/pell13)|
