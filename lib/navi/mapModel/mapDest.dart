@@ -214,7 +214,7 @@ class _MapScreenState extends State<MapScreen> {
       LatLng(37.873, -122.263),
       LatLng(37.873, -122.265),
       LatLng(37.873, -122.267),
-      LatLng(37.873, -122.26),
+      LatLng(37.873, -122.269),
     ];
     for (final position in testList) {
       setState(() {
