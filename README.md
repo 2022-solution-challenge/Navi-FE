@@ -54,9 +54,9 @@
 5. Demo Video
 6. Getting Started 
     1. Download Navi.apk via [link](https://drive.google.com/file/d/1UdEyV9IVIIPfSo4ZGRFxg46VksZaEzpx/view?usp=sharing)(for Andriod OS)
-    2. Run App on Emulator(need .env and main/AndriodManifest file for API KEY)
+    2. Run App on Emulator(need .env and andriod/app/src/main/AndriodManifest file for API KEYs, you can get them from PDG-privates)
     
-    ```jsx
+    ```
     #Clone Repository
     git clone https://github.com/2022-solution-challenge/Navi-FE.git
     
