@@ -27,7 +27,7 @@
 
      The front-end part developed the app using Flutter, a framework of Dart. We chose Flutter because it supports cross platform. One of the important elements of a solution that addresses the SDGs is that it must be usable by everyone. 
     
-     Backend implemented API server using Java-based Spring boot framework, and database used MySQL. The reason we used this was because I thought that Spring Boot was the best way to consider the scalability of the service and write the code in a consistent structure, so I implemented it as follows. I used MySQL because I wanted to keep data consistent and stable. 
+     Backend implemented API server using Java-based Spring boot framework, and database used MySQL. The reason we used this was because we thought that Spring Boot was the best way to consider the scalability of the service and write the code in a consistent structure, so we implemented it as follows. We used MySQL because we wanted to keep data consistent and stable. 
      
      To deploy the API server, we deployed Google Cloud's Cloud Run. Because Cloud Run is a fully managed container service, it was easy to proceed with the deployment. Not only that, the database was also coded using Cloud SQL. 
      
