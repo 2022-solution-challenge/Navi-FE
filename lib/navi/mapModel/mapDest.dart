@@ -14,7 +14,7 @@ class NaviMainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Navigation Demo',
+      title: 'Navi',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -173,7 +173,6 @@ class _MapScreenState extends State<MapScreen> {
 
   bool isMarkerNearPath(Marker marker) {
     //LatLng이 정의된 게 달라서 몹시 번거롭다..
-
     final pointMp =
         mp.LatLng(marker.position.latitude, marker.position.longitude);
     return mp.PolygonUtil.isLocationOnPath(pointMp, pathPointList, false);
