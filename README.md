@@ -18,19 +18,25 @@
     
      Globally, road traffic injuries are the leading cause of death in 10–19 year olds, according to the WHO report “Children and road traffic injury” in 2018. Also, it is predicted that they will be the fifth leading cause of death worldwide in High-income country. Especially, Rates of road traffic death among children are 3 times higher in low- and middle-income countries than in high-income countries
     
-    Through this, we know that children's traffic accidents are a global problem, and we want to solve it technically. 
+    Through this, we know that children's traffic accidents are a global problem, and we want to solve it technically. We address No Poverty, Sustainable Cities and Communities in SDGs.
     
     
     <img width="1000" alt="goal" src="https://user-images.githubusercontent.com/80435616/161185226-2a20ca15-d74b-4567-9cc9-518ae7846e03.png">
     
 3. Project Architecture
+
+     The front-end part developed the app using Flutter, a framework of Dart. We chose Flutter because it supports cross platform. One of the important elements of a solution that addresses the SDGs is that it must be usable by everyone. 
     
-    The front-end part developed the app using Flutter, a framework of Dart. We chose Flutter because it supports cross platform. One of the important elements of a solution that addresses the SDGs is that it must be usable by everyone. 
+     Backend implemented API server using Java-based Spring boot framework, and database used MySQL. The reason we used this was because I thought that Spring Boot was the best way to consider the scalability of the service and write the code in a consistent structure, so I implemented it as follows. I used MySQL because I wanted to keep data consistent and stable. 
+     
+     To deploy the API server, we deployed Google Cloud's Cloud Run. Because Cloud Run is a fully managed container service, it was easy to proceed with the deployment. Not only that, the database was also coded using Cloud SQL. 
+     
+     <p align = "center">
+  <img width = 500px  src="https://user-images.githubusercontent.com/70755947/160151643-ae8a6f48-d1f0-485a-b888-f8c024006420.png">
+</p>
     
-    Backend implemented API server using Java-based Spring boot framework, and database used MySQL. The reason we used this was because I thought that Spring Boot was the best way to consider the scalability of the service and write the code in a consistent structure, so I implemented it as follows. I used MySQL because I wanted to keep data consistent and stable.
-    
-    To deploy the API server, we deployed Google Cloud's Cloud Run. Because Cloud Run is a fully managed container service, it was easy to proceed with the deployment. Not only that, the database was also coded using Cloud SQL. 
-    
+
+
 4. Solution
     
     We received the US Car Accident Data and provided the accident-prone section on the child's route as a Google Map. This allows us to define accident-prone areas and provide users with information about them. In addition to simply providing information through accident area data, users can add accident-prone area information and empathize with it. This provides a community function and provides a means to complement child safety.
